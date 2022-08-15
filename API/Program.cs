@@ -24,9 +24,9 @@ namespace API
            catch (Exception ex)
            {
             
-            logger.LogError(ex, "Migrating duration get error!");
-           }
-
+            logger.LogError(ex, "Migrating duration get error!...");
+           } 
+            
            host.Run();
     
         }
