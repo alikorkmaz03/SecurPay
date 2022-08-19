@@ -20,7 +20,13 @@ namespace API.Controllers
             _context = context;
                    
         }
-        
+        // [HttpGet] //****Senkron Çalışır ****
+        // public ActionResult<List<Product>>GetProducts()
+        // {
+        //     var products= context.Products.ToList();
+
+        //     return Ok(products);
+        // }
         [HttpGet] //****ASenkron Çalışır ****
         public async Task<ActionResult<List<Product>>>GetProducts()
         {
@@ -28,7 +34,12 @@ namespace API.Controllers
 
         }
         
-       
+        // [HttpGet("{Id}")]//****ASenkron Çalışır ****
+        // public ActionResult<Product>GetProductById(int Id)
+        // {
+        //     return context.Products.Find(Id);
+        // }
+
          [HttpGet("{Id}")]//***Asenkron Çalışır//
         public async Task<ActionResult<Product>>GetProductById(int Id)
         {
