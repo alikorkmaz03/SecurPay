@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Catalog from "../../features/catalog/Catalog";
 import { Product } from "../models/product";
@@ -45,7 +46,7 @@ function addProduct(){
     // <button onClick={addProduct}>Add Product</button>
     // </div> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
      <div>      
-      <h1>NtStore</h1>
+      <Typography variant='h1'>NtStore</Typography>
       <Catalog products={products} addProduct={addProduct}/>      
     </div> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
     
