@@ -1,7 +1,9 @@
-import { Typography } from "@mui/material";
+import { CssBaseline } from "@mui/material";
+import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import Catalog from "../../features/catalog/Catalog";
 import { Product } from "../models/product";
+import Header from "./Header";
 
 function App() {
 //  const [products, setProducts] =useState([  
@@ -46,8 +48,11 @@ function addProduct(){
     // <button onClick={addProduct}>Add Product</button>
     // </div> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
      <div>      
-      <Typography variant='h1'>NtStore</Typography>
-      <Catalog products={products} addProduct={addProduct}/>      
+      {/* <Typography variant='h1'>NtStore</Typography> */}
+      <CssBaseline/>
+      <Header/>
+      <Container><Catalog products={products} addProduct={addProduct}/></Container>
+          
     </div> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
     
   );
