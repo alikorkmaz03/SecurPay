@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Catalog from "../../features/catalog/Catalog";
 import { Product } from "../models/product";
 
 function App() {
@@ -43,14 +44,9 @@ function addProduct(){
     //   </ul>
     // <button onClick={addProduct}>Add Product</button>
     // </div> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
-     <div className="app">
+     <div>      
       <h1>NtStore</h1>
-      <ul>
-        {products.map((product)=>(
-        <li key={product.id}>{product.name} - {product.price}</li>
-        ))}
-      </ul>
-    <button onClick={addProduct}>Add Product</button>
+      <Catalog products={products} addProduct={addProduct}/>      
     </div> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
     
   );
