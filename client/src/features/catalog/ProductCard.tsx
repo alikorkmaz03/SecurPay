@@ -4,7 +4,7 @@ import { Product } from "../../app/models/product";
 interface Props {
     product:Product;
 }
-export default function ProuctCard({product}:Props){
+export function ProductCard({product}:Props){
     return (
          <ListItem key={product.id}>
         <ListItemAvatar>
