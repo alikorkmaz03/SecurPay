@@ -1,11 +1,24 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  SwipeableDrawer,
+  Switch,
+} from "@mui/material";
 
-export default function Header(){
- return(
-    <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static">
-      <Toolbar>
-        {/* <IconButton
+interface Props{
+  darkMode : boolean;
+  handleThemeChangeColor :() => void;
+}
+
+export default function Header({darkMode,handleThemeChangeColor} :Props) {
+  return (   
+      <AppBar position="static" sx={{ mb: 4 }}>
+        <Toolbar>
+          {/* <IconButton
           size="large"
           edge="start"
           color="inherit"
@@ -14,13 +27,12 @@ export default function Header(){
         >
           <MenuIcon />
         </IconButton> */}
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Nt - Store
-        </Typography>
-        <Button color="inherit">Login</Button>
-      </Toolbar>
-    </AppBar>
-  </Box>
- )
-
+          <Typography variant="h6" >
+            Nt - Store
+          </Typography>
+          <Switch checked={darkMode} onChange={handleThemeChangeColor} />
+          <Button color="inherit" sx={{float:"right"}}>Login</Button>
+        </Toolbar>
+      </AppBar>    
+  );
 }
