@@ -10,15 +10,15 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
-       
+
         private readonly NtContext _context;
-        
+
         public ProductsController(NtContext context)
         {
             _context = context;
-                   
+
         }
         // [HttpGet] //****Senkron Çalışır ****
         // public ActionResult<List<Product>>GetProducts()
@@ -28,20 +28,20 @@ namespace API.Controllers
         //     return Ok(products);
         // }
         [HttpGet] //****ASenkron Çalışır ****
-        public async Task<ActionResult<List<Product>>>GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
 
         }
-        
+
         // [HttpGet("{Id}")]//****ASenkron Çalışır ****
         // public ActionResult<Product>GetProductById(int Id)
         // {
         //     return context.Products.Find(Id);
         // }
 
-         [HttpGet("{Id}")]//***Asenkron Çalışır//
-        public async Task<ActionResult<Product>>GetProductById(int Id)
+        [HttpGet("{Id}")]//***Asenkron Çalışır//
+        public async Task<ActionResult<Product>> GetProductById(int Id)
         {
             return await _context.Products.FindAsync(Id);
         }

@@ -26,7 +26,7 @@ const midLinks = [
 
 const rightLinks = [
   { title: "Giriş", path: "/login" },
-  { title: "Üye Ol", path: "/register" },
+  { title: "KayıtOl", path: "/register" },
 ];
 const navStyles = [
   {
@@ -70,7 +70,7 @@ export default function Header({ darkMode, handleThemeChangeColor }: Props) {
               <ShoppingCart />
             </Badge>
           </IconButton>
-          <List sx={{ display: 'content', justifyContent: "space-between" }}>
+          <List sx={{ display: 'flex' }}>
             {rightLinks.map(({ title, path }) => (
               <ListItem component={NavLink} to={path} key={path} sx={navStyles}>
                 {title.toLocaleUpperCase('tr-TR')}
