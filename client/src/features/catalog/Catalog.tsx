@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
+import agent from "../../app/api/agent";
 import { Product } from "../../app/models/product";
 import ProductList from "./ProductList";
 
 export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([]); ///Dinamik hale getiricez interface olusturmustuk
 
+  //Merkezleştirme geliştirmesinden önce
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/Products")
+  //     .then((response) => response.json())
+  //     .then((data) => setProducts(data));
+  // }, []); //[] empty array eklemezsek sürekli products 'u çağrıyor buyüzden ekledik
+
+   //Merkezleştirme geliştirmesinden Sonra agent üzerinden çağrıyoruz
   useEffect(() => {
-    fetch("http://localhost:5000/api/Products")
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
+    agent.Catalog.list().then(products =>setProducts(products))
   }, []); //[] empty array eklemezsek sürekli products 'u çağrıyor buyüzden ekledik
-  
+
+
   // function addProduct(){
   //   setProducts(prevState=> [...prevState, {name: 'product' + (prevState.length+1), price:(prevState.length*100)+100}])
   // } //üstteki eski Product dizisini değiştirince bu kod hata vericek çünkü interface teki diğer alanları da bekliyor
