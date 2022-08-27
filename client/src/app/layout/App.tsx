@@ -46,7 +46,7 @@ function App() {
       <Header darkMode={darkMode} handleThemeChangeColor={handleThemeChangeColor}/>
       <Container>
         <Routes>
-        <Route index element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path='/catalog'  element={<Catalog/>} />
         <Route path='/catalog/:id' element={<ProductDetails/>} />
         <Route path='/about' element={<AboutPage />} />

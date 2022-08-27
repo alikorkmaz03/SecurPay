@@ -1,11 +1,25 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 axios.defaults.baseURL='http://localhost:5000/api/';
 
 //Arrow Function ile kullanım
 const responseBody = (response:AxiosResponse)=>response.data;
+//axios interceptors
+axios.interceptors.response.use(response =>{
+    return response
+},(error:AxiosError)=>{
+    console.log('caugth by interceptor');
+    return Promise.reject(error.response);
 
-const request = {
+})
+
+//Normal Kullanım/
+// function responseBodyFn(response:AxiosResponse){
+//     return response.data;
+// }
+
+
+const requests = {
     get:(url:string)=>axios.get(url).then(responseBody),
     post:(url:string,body:{})=>axios.post(url,body).then(responseBody),
     put:(url:string,body:{})=>axios.put(url,body).then(responseBody),
@@ -15,15 +29,15 @@ const request = {
 
 const Catalog=
 {
-    list:()=> request.get('products'),
-    details:(id:number)=>request.get(`products/${id}`)
+    list:()=> requests.get('products'),
+    details:(id:number)=>requests.get(`products/${id}`)
 }
 const TestErrors={
-    get400Error:()=>request.get('buggy/bad-request'),
-    get401Error:()=>request.get('buggy/unauthorised'),
-    get404Error:()=>request.get('buggy/not-found'),
-    get500Error:()=>request.get('buggy/server-error'),
-    getValidationError:()=>request.get('buggy/validation-error'),
+    get400Error:()=>requests.get('buggy/bad-requests'),
+    get401Error:()=>requests.get('buggy/unauthorised'),
+    get404Error:()=>requests.get('buggy/not-found'),
+    get500Error:()=>requests.get('buggy/server-error'),
+    getValidationError:()=>requests.get('buggy//validation-error'),
 }
 
 const agent ={
@@ -32,8 +46,3 @@ TestErrors
 }
 
 export default agent;
-
-//Normal Kullanım/
-// function responseBodyFn(response:AxiosResponse){
-//     return response.data;
-// }

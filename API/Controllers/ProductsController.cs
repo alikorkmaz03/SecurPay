@@ -40,10 +40,15 @@ namespace API.Controllers
         //     return context.Products.Find(Id);
         // }
 
-        [HttpGet("{Id}")]//***Asenkron Çalışır//
-        public async Task<ActionResult<Product>> GetProductById(int Id)
+        [HttpGet("{id}")]//***Asenkron Çalışır//
+        public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            return await _context.Products.FindAsync(Id);
+            var product= await _context.Products.FindAsync(id);
+
+            if (product==null) return NotFound();
+
+            return product;    
+            
         }
     }
 }
