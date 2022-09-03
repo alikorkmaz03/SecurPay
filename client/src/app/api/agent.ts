@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
+import { history } from "../..";//index.tsx ten geliyor
 
 axios.defaults.baseURL='http://localhost:5000/api/';
 
@@ -33,7 +34,16 @@ axios.interceptors.response.use(response =>{
             break;
 
         case 500:
-            toast.error(data.title);
+            // toast.error(data.title);ç
+            //hatalı kod 
+            // history.push({
+            //     pathname:'/server-error',state : {error.data}
+                 
+            // });
+            // //Çözüm ServerError.tsx dosyasına aşağıdaki kod eklenmeli
+            // const location = useLocation();
+            // const state = location.state as any; 
+            history.push('/server-error',{error:data});
             break;
     
         default:
