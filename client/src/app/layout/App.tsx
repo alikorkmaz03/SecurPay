@@ -11,6 +11,7 @@ import HomePage from "../../features/home/HomePage";
 import Header from "./Header";
 import 'react-toastify/dist/ReactToastify.css'
 import ServerError from "../errors/ServerError";
+import NotFound from "../errors/NotFound";
 
 function App() {
   const[darkMode,setDarkMode]=useState(false);
@@ -55,6 +56,7 @@ function App() {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/contact' element={<ContactPage/>} />
         <Route path='/server-error' element={<ServerError/>} />
+        <Route path='*' element={<NotFound/>} />
         </Routes>
       </Container>
     </ThemeProvider> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
