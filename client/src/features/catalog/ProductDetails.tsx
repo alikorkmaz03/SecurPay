@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
 import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFound";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
@@ -32,7 +33,7 @@ export default function ProductDetails() {
 
   // },[])
 
-  if (loading) return <h3>Yükleniyor...</h3>;
+  if (loading) return <LoadingComponent message="Ürün Yükleniyor..."/>
   if (!product) return <NotFound/>
 
   return (
