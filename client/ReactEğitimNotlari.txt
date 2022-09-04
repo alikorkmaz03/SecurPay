@@ -1,0 +1,526 @@
+-----------------REACT NOTLAR-------------
+JSX
+State Management
+Conditional Rendering
+Use State
+Use Ref
+Use Effect
+Local Storage
+
+
+-----------React Proje Oluşturma--------------
+code->  npx create-react-app password-generator --use-npm
+
+Note 
+create-react-app React uygulamaları oluşturmamız için gereken
+Babel,Webpack vb teknolojilerin konfigürasyonlarını bizlerin yerine otomatik
+yapan bir pakettir.
+
+-Babel, React projelerimiz için JSX(Javascript XML) kodlarımızın 
+browserların anlayabileceği koda dönüştürülmesini sağlar.
+
+-Webpack uygulamamızın ihtiyaç duyduğu hereşeyi bir araya getiren
+JAVASCRIPT için bir modül paketleyicidir.
+
+
+code . -> visual studio code ile aç
+
+
+### `npm start` 
+
+### `npm test`
+
+### `npm run build`
+
+### `npm run eject`
+
+
+->npm start ile projeyi başlat
+
+JSX html ile javascript'in harmanlanmış halidir.Biz bunları kullanarak
+daha güzel ve güçlü uygulamar çıkarabiliyoruz.
+
+{} parantez ile 
+
+
+JSX içerisinde aşağıdaki gibi bir yapı kullanılabilir.
+Daha hızlı çalışıyor.  Return ile uygulama içerisinde
+döndürülebilecek tüm yapı kurulabilir.
+<> </> -> blokları arasına kodlar yazılabilir.Div içerisine almaya gerek yok
+
+Kod
+-------
+function App() {
+  return   (
+  <>
+  <img src={logo} className="App-logo" alt="logo" />
+  <p>İlk React Uygulaması</p>
+  </>
+  );
+}
+
+
+Arraymap kullan
+
+Yardımcı Plugin : Prettier Code Formatter  güzel plugin kodun düzenli biçimlenmesini sağlıyor.
+
+
+React'ta Proje güncelleme ve Bootstrap kurulumu
+-------------------------------------------------------------
+Terminal'e aşağıdaki kodu yaz
+code-> npm i bootsrap 
+
+
+index.js içerisine import "bootstrap/dist/css/bootstrap.min.css" kodu ekle böylece bootsrap i import etmiş olacağız.
+
+npm start komutu ile uygulamayı çalışıtrabiliriz.
+
+UseState Hook
+
+React ta dinamik değeri değişicek bir yapı varsa usestate hook kullanarak bunu yapabiliriz.
+Password Generator Uygulamamızda slider'ını arttırınca Paswword length değerinin de değişmesi için useState hook'u kullanacağız.
+
+
+PasswordState
+
+P
+
+
+
+
+---------------------------------.net6 E Commerce------------------------------------------
+Git bashi aç klasör olustur ve cd komutu ile içerisine gir
+
+dotnet new sln--> sln proje olusturur
+dotnet new webapi -o API-> API olusturur.
+dotnet sln add API
+
+Sonrasında hazır olusturduğun template API servisi VS Code ile aç
+VS code da Terminali aç   ctrl+" kombinasyonunu kullanabilirsin direk açılır.
+cd komuru ile API klasör içinde gir
+
+dotnet watch run komutunu çalıştır
+
+terminalde calisan localhost adresi ve portunu göreceksin adresi kopyala ve sonuna /swagger ekle
+
+
+Extensionlardan aşağıdakileri yükle
+------------------------------------
+C#
+
+C# Extension by JosKreativ
+
+auto rename tag
+
+metarial icon theme
+
+nugget gallery
+
+-------------------------------------------------
+VS COde üzerinde settings->Preferences-> exclude yaz
+
+**/bin
+**/obj
+
+
+API.csproj -> Aşağıdaki iki tagi sil
+<Nullable>enable</Nullable>
+<ImplicitUsings>enable</ImplicitUsings>
+
+-------------------------------------------------
+namespace API {} olarak Controllers ve Class içerisinde yeni namespace aç ve 
+kodları bu namespace içerisine al.
+
+
+------------------Projemizi inceledik sıra geldi Product Class'ı olusturmaya
+
+API -> Entities-> Product Class'ı olustur (C# Extension by JosKreativ eklenti sayasesinde herşey hazır olarak name Space 'i ve propertiesler gelicek)
+
+prop yaz iki kere tab'a bas ve alanlarını olusutur
+
+alanları olustrurduktan sonra entity framework yapısını diğer derste inceledik
+
+Sonra ctrl+shift+P yapıp nuget galery sine daha önceden indirmiş olduğumuz extenstion sayesinde indirebilirsiniz.Nugete Microsoft.EntityFrameworkCore YAZIP aşağıdaki paketleri inderebilirsiniz;
+
+
+Microsoft.EntityFrameworkCore.Sqlite
+Microsoft.EntityFrameworkCore.Design
+
+bu iki paketi indirdikten sonra--> Proje içerisine DBContext için Data adında klasör olustur.
+
+NtDataContext classı Data klsörünün içerisine olusturduktan sonra 
+ : DbContext 'i extend et 
+ 
+ DBContext class'ı içerisine aşağıdaki constructor'ı olustur.
+ 
+->> public NtContext(DbContextOptions options): base(options)
+        {
+
+        }
+    
+
+-->Startup içerisindeki ConfigureServices class'ı altına 
+
+  services.AddDbContext<NtContext>(opt =>
+            {
+                opt.UseSqlite(Configuration.GetConnectionString("NtDefaultConnection"));
+            });
+			
+			yapısını ekle bu kod sqlite  bağlantısı için NtDefaultConnection atar.
+-->NtDefaultConnection yapısını appsetings.Development.json altına 
+ "ConnectionStrings": {
+    "NtDefaultConnetion":"Data source=store.db"
+  }
+  
+  bu yapıyı ekle.
+
+--> Sonra google dotnet-ef  yazıp nugetin sitesinden dotnet entity framework migration için
+indireceğiz.
+
+dotnet tool install --global dotnet-ef --version 7.0.0-preview.6.22329.4
+-->eğer dotnet-ef yüklüyse sürümü aşağaki komut ile güncelleyedebilirsin.
+
+dotnet tool update --global dotnet-ef --version 7.0.0-preview.6.22329.4
+
+
+-->Migration için kurulumu için 
+dotnet ef migrations add InitialCreate -o Data/Migrations
+
+Yukarıdaki kod terminalde çalıştıktan sonra Data klasörü altında Migrations oluşturmanızı sağlayacak.Bu projede connection sqllite ile yapılıyor en azından şimdilik :) 
+
+-->Aşağıdaki komut ile veritabanı oluşturabilir migration daki tabloları olusturabilirsin.
+dotnet ef database update
+
+
+-->VS code içinde ctrl+shif+P ye basıp Sqlite Open Database yazıp olusturulan db yi Sol tarafta bulunan SQLITE Explorer üzerinden açabilirsin.
+
+Data klasörü içerisinde yeni bir class olustur. Adına DbInitializer  diyelim
+C# için indirdiğimiz extention'a sağ tıklayıp -> Extension Settings->Enable Import Completion seçeneğini işaretle. 
+Bu işlemi otomatik olarak kullanacağımız kütüphaneleri eklemesi için yaptık. ÖNEMLİ !!! 
+
+-> şimdi DbInitializer içerisinde default olmasını istediğimiz dataları ekleyeceğiz bunun için "snippets" klasörü içerisindeki dataları kopyala Product
+için olusturduğumuz listeye yapıştır. 
+
+->Bu işlemden sonra foreach döngüsü ile listedeki tüm ürünleri migration ayağa kaldırılırken dbye eklenmesini sağlıyoruz.Kodu DbInitializer class'ında bulabilirsin.
+
+**EKBİLGİ** Any() metodu ile Linq da , bir koleksiyonda belirtilen koşula uygun kayıt varmı yokmu kontrol eder.
+
+-->Program.cs içerisinde migration için kontrollerimizi ve db ayağa kalkarken hata alındığında kontrol mekanizmamızı kurduk
+
+->dotnet ef database drop  komutu ile bir önceki olusturduğumuz db yi silicez çünkü yaptığımız değişiklikleri test edicez tekrar db olusturucaz!!
+****Bu bölümdeki kodları çalış *****Using the Program.cs class to migrate and seed the data on app startup
+
+TEST tamamlandı service'i ayağa kaldırdığımızda DbInitializer içerisindeki Productlarımızın otomatik olarak tabloya eklendiğini gördük.Migration çalıştı.
+
+DB migration tamamlandıktan sonra şimdi ProductAPI controller yazacağız.
+
+->Controllers klasörü içerisine ProductsController isimli bir class olusturduktan sonra 
+-->[ApiController]
+-->[Route("api/[controller]")]  //Route ayarı için 
+-->ProductsController class'ına ControllerBase classını implemente ediyoruz   ProductsController:ControllerBase
+
+Şimdi ProductsController class'ı içerisine  ProductsController adlı bir controller oluşturuyoruz. Ardından bunu DATA klasörü içerisindeki context bağlantısını 
+yapacağız.
+--> public ProductsController(NtContext context)
+        {
+            this.context = context;            
+        }
+-->context parametresine ctrl+. ile basıp  Initialize Field from Parameter seçeneğini seçiyoruz. Bunun ne işe yaradığını araştır **ÖNEMLİ**
+
+Productlar için yaptığımız API servisimiz  senkron olarak yazıldı. Bir sonrakini Servisimiz Asenkron olarak yapacağız.
+
+Şimdi servislerimizi asenkron olarak çevirdik böylece daha kararlı yapıda çalışması sağlandı.
+
+sonraki aşamadak küçük ama önemli bir değişiklik yapacağız 
+private readonly NtContext _context;  olarak context imizi otomatik oluşturmak için c# extenstions ->sağ tıklayıp Extension Settings ayarına gireceğiz.
+-->Private Member Prefix kutucuğunu işaretle _ işaretini textboxın içine yaz. (_context olarak ataması için)
+-->use This For Ctor Assignments işaretini kaldır. 
+
+Bu aşamalardan sonra eski private readonly context 'i silip tekrar _context li olanı olusturucaz.
+context e ctr+. işaretine tıkla Initialize Field From Parameter seçeneğini seçin.Bu tekrardan private readonly NtContext _context; olusturulmasını sağlıcak
+yaptığımız değişiklik context paremetresinin başına _ eklemek bunu C# extenstions ayarlarından yaptık.
+
+
+--şimdi powershell'i Visual Studio Code üzerinden açtıktan sonra aşağıdaki komut ile terminalden hazır template leri incelemeliyiz.
+
+
+-->dotnet new -l
+
+dotnet gitignor...  gitignore                        Config
+
+-->dotnet new gitignore komutunu çalıştır.
+
+github hesabını aç ve birtane branch oluştur.
+
+Aşağıdaki kodlar terminal kodu sana yardımcı olucaktır.
+
+echo "# NtStore" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/alikorkmaz03/NtStore.git
+git push -u origin main
+
+
+-----------REACT Proje Oluşturma--------------
+->npx create-react-app client --template typescript --use-npm 
+komutu ile yeni react projesi olusturabiliriz
+
+
+!!!!!!!!!!************************error code E405
+46 error 405 Method Not Allowed - GET https://registry.npmjs.org/cra-template---use-npm/create-react-app
+hata aldık :)
+çözümü 
+npm config set registry https://registry.npmjs.org
+
+projeyi olusturduktan sonra aşağıdaki kod ile npm sürümünü de ayrıca güncelledik
+Herşey Güncel Olsun iyidir :)
+
+->npm install -g npm@8.17.0
+
+npx create-react-app my-app
+cd my-app
+npm start
+
+***************************ÇOK ÖNEMLİ BİLGİ******************************************************************
+CORS konfigürasyonu yapıldıktan sonra API servisini
+->dotnet build
+komutu ile derle sonrasında
+->dotnet watch run 
+komutu ile servisi ayağa kaldır. CORS konfigürasyonundan sonra API backend servisimizi derlemek gerekiyor.
+Yoksa değişiklik etkili olmuyor browserda hata alınıyor.
+
+tüm bu işlemler tamamlandıktan sonra gitbash üzerinden client klasörüne girip npm start komutu ile react app uygulamasını
+başlatabilirsin.
+
+************************************************************************************************************
+Sıra geldi product için typscript ile birşeyler yapmaya
+
+ilk olarak src klasörü içerisinde product.ts isimli dosya oluşturalım.Bu dosya içerisine Product interface'i eklicez.
+Product interface 'ini şu şekilde daha rahat oluşturabilirsiniz 
+öncelikle API içerisine product için olusturduğumuz API servisiniz swagger da aç bunun için
+http://localhost:5000/SWAGGER/index.html diye swagger'ı çağırabilirisin.Sonrasında buradaki Products için yazdığımız GET 
+methodunu aç  Example Value kısmında Product için olustuduğumuz parametreleri göreceksin.
+
+Aşağıdaki GET mothudunun içerisinden aldığımız kodu kopyala ve http://json2ts.com/ adresine git. Bu site JSON olarak beklenen alanları
+Typescript'e çevirmeni sağlıyacak burada çevirip alanları interface'ine ekleyebilirsin. Hepsi bu kadar :)
+-->[
+  {
+    "id": 0,
+    "name": "string",
+    "description": "string",
+    "price": 0,
+    "pictureUrl": "string",
+    "type": "string",
+    "brand": "string",
+    "quantityInStock": 0
+  }
+]
+
+
+bu işlemden sonra dosyalarımızı düzenledik app models ve feature klasörü olusturduk.
+
+-> klasörleri düzenledikten sonra features\catalog\ klasörü oluştruduk sonrasında catalog klasörü 
+altınta Catalog.tsx adında bir typescript dosyası oluşturduk.Burayı düzenledik ve Catalog componentini App.tsx dosyasında çağırdık
+burası çok önemli.************************
+
+sıra geldi Metarial UI framework ünü tasarımımıza eklemeye.  
+->Framework nedir ? : Framework, yazılım geliştiricilerin kullandığı önceden hazırlanmış 
+kütüphanelerin bunluduğu ve bunlara yenilerini ekleyebileceği yapıların adıdır.
+
+https://mui.com/versions/ bu linkten Metarial UI  versionlarını görebilir ve indirebilirsiniz.
+
+->	npm install @mui/material @emotion/react @emotion/styled
+
+bu kodu terminalden client klasörü içerisine gidip orda çalıştırmalıyız.Proje diğer türlü hata alabilir. **
+
+Metarial UI dökümantasyonundan baktığımız Roboto fontunu index.html dosyasına ekledik
+-> <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+
+Svg Iconlar için aşağıdaki kodu terminalde çalıştır.
+-> npm install @mui/icons-material
+
+tasarımımızı metearial UI 'a çeviridik. Liste yaptık şimdide resimleri görmek için public klsörü içerisine hazır resimleri atalım.
+
+Bir sonraki aşamada Componentlerimizi catalog klasörü altında oluşturuyoruz.
+
+**shift + alt + F*** kısayolu kod yazımını formatlar.
+
+Layout klasörü altında Header.tsx componenti oluştur.
+
+--------------React Router-------
+Adding Axios 
+
+https://reactrouter.com/en/main/getting-started/overview#installation
+
+Adresinden quick start bölümüne giriyoruz.React router ile sayfalara link vereceğiz servisler üzerinden.
+
+->npm install react-router-dom @types/react-router-dom
+
+kodu ile react router paketini gitbash üzerinden indiriyoruz.
+
+Bir sonraki aşamada sayfalarımız için klasörlerimizi oluşturacağız
+sonra her satyfa için home,about,contact,productdetails.tsx şekilinde klasörlerimize tsx dosyamızı oluşturacağız.
+
+index.tsx dosyamız içerisine 
+-> <BrowserRouter>
+    <App />
+    </BrowserRouter>
+    
+  </React.StrictMode>
+  
+  BrowserRouter etiketini ekliyoruz.
+
+evet yine hata aldık :)
+
+çözüm : 
+React router ın videodaki ile kullanımı aynı değil dökümantasyonundaki gibi
+yapınca sorunsuz çalıştı  kod aşağıdaki gibidir .Component isimlerini değiştirmelisiniz. 
+-><Routes>
+      <Route path="/" element={<App />}>
+        <Route index element={<Home />} />
+        <Route path="teams" element={<Teams />}>
+          <Route path=":teamId" element={<Team />} />
+          <Route path="new" element={<NewTeamForm />} />
+          <Route index element={<LeagueStandings />} />
+        </Route>
+      </Route>
+    </Routes>
+
+
+----------------
+npm install @mui/icons-material 
+iconlarını yüklüyoruz
+
+React Routerda exact ile ilgili problem var bunu araştır !!!!
+
+sonraki aşamada api üzerinden URL 'i çekicez ürün detay sayfası için 
+bu sebeble axios paketinden faydalanıcaz.
+
+->npm install axios
+
+https://axios-http.com/docs/intro
+axios paketini araştır!!!!!
+
+--------------Exception Handling----------
+API Servislerimizde hata olduğu zaman hatayı yakalayan bir controller mekanizması kuracağız.
+
+API klasörü içerisindeki BuggyController ve BaseApiController adında iki controller oluşturuyoruz.
+
+Bir önceki ProductController'ı BaseApiController miras almalı (Inheritance)
+
+BaseApiController ise ControllerBase sınıfından miras almalı
+
+BuggyController ise BaseApiController sınıfından miras almalı
+
+
+---------------Middleware Pipeline (Asp .Net Core Ara Yazılımı) ---------------
+Ara yazılım, istekleri ve yanıtları işlemek için uygulama işlem hattıyla birleştirilmiş bir yazılımdır. Her bileşen:
+
+İsteğin işlem hattında bir sonraki bileşene geçirilip geçirilmeyeceğini seçer.
+İşlem hattında bir sonraki bileşenden önce ve sonra çalışma gerçekleştirebilir.
+İstek işlem hattını oluşturmak için işlem temsilcileri kullanılır. İstek temsilcileri her HTTP isteğini işler.
+
+https://docs.microsoft.com/tr-tr/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0
+
+
+İlk olarak API klasörü altına Middleware isimli klasörümüzü oluşturuyoruz. 
+Bu klasör içerisinde ExeptionMiddleware.cs isimli bir class oluşturucaz.Aşağıdaki gibi bir method yapıcaz ve gerekli kütüphaneleri import 
+edeceğiz.
+
+->  public ExceptionMiddleware(RequestDelegate next,ILogger<ExceptionMiddleware> logger,IHostEnvironment env)
+        {
+            _env = env;
+            _logger = logger;
+            _next = next;
+            
+        }
+***ÖNEMLİ** 
+Yukardaki kod içerisindeki parametrelerin üzerine ctrt+. tuş kombinasyonunu kullanıp Initialize field from Parameter seçeniğiniz seçiyoruz.		
+***ÖNEMLİ** 
+
+Bu hata yakalamı mekanizmasını  client tarafta da test amaçlı göstereceğiz. Bunu  axios npm paketi ilece yapacağız.
+
+Hata kodlarımızı belirten test senaryolarımızı yaptık ve response olarak consol'a 400,404 gibi hata kodlarını yazdırdık.
+Bunun için daha önce oluşturduğumuz buggyController dan API lerimizi çağırdık.Detay için kodu incele.UI tarafı geçici olarak
+AbaoutPage de :)
+
+
+-----------------------Axios Interceptor----------
+agent'ımıza  axios un sağladığı interceptors lerimizi çağırıyoruz.
+
+
+--------------------Toast notification-----------------
+Toast notification lar ekranda sağ alt kısımda bulunan küçük pencerelerdir.Görsel olarak incelemek ve npm paketini bulmak için aşağıdaki siteyi ziyaret edebilirsiniz.
+
+terminalde gitbash üzerinden /client klasörüne gidip aşağıdaki kodu
+terminale yapıştırıp npm paketini yükleyebilirsiniz.
+
+->npm install react-toastify
+
+
+--------------------Handling Validation Error----------
+Agent içerisinde 400 hatası için modelstateErrors adında dizi içerisinde 
+hata olduğunda yakalayan bir for döngüsü oluşturduk. 
+
+Hakkımızda sayfasında getValidationError adında yeni bir method yazıp ekranda liste içerisinde hata yazmasını sağladık.Kodu kontrol edebilirsin.
+
+--------------------Server Error Component Oluşturma--------------
+
+history eklerken Router'ın history özelliği versiyonu eski olduğu için hata aldı.
+//Çözüm aşağıdaki gibidir. index.ts dosyasına aşağıdaki kodu ekle.
+
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+export const history = createBrowserHistory();
+ const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <HistoryRouter history={history}>
+      <App />
+    </HistoryRouter>
+  </React.StrictMode>
+);
+
+------------------------------------------------------------------------
+Server error'ı state de servisten gelen hatayı görmek isterken hata aldık. Çözümü aşağıdaki gibi.
+
+
+//Çözüm ServerError.tsx dosyasına aşağıdaki kod eklenmeli
+ ->const location = useLocation();
+ ->const state = location.state as any; 
+			
+agent.ts dosyasına case 500 koşuluna aşağıdaki gibi çağrılmalı.			
+ -> history.push('/server-error',{error:data});
+ 
+ -------------------------use Navigate -------------
+ useHistory Hata aldı bunun yerine 
+ 
+ çözüm : 
+ Buton aşağıdaki şekilde kullanılacak v6 sürümünde useHistory yerine useNavigate olarak kullanılıyor.
+ Kaynak : https://stackoverflow.com/questions/62861269/attempted-import-error-usehistory-is-not-exported-from-react-router-dom
+-> const navigate =useNavigate();
+   
+-><Button onClick={()=>navigate('/catalog')}>Ürünlerimize Geri Dön</Button>
+
+
+-------------------------React UI Nasıl Debug Edilir---------------
+React UI tarafında Chrome debugger eklentisini yükledim fakat çalıştaramdım bunu araştıracağım.
+fakat ufak bir konfigurason yapmam gerektiğini farkettim. Aşağıdaki kodu vscode klasörü içerisindeki launch.json isimli
+dosyanın içerisine girip en alta eklerseniz. Bu işlemden sonra ekranın sol tarafında bulunan run and debugging tab'ına gelip "Launch Chrome against localhost"  seçeneğini seçip uygulamayı burdan
+başlatın.
+Önceden uygulamayı çalıştırdıktan sonra bu işlemi yapmanız gerekiyor.
+
+Chrome üzerinde react kodlarını debug edebilirsiniz.Tabiki vscode da  break point koymayı unutma :)
+//Çözüm :  
+->launch.json dosyasına eklenecek kod aşağıdaki gibidir.
+,
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
+        }
