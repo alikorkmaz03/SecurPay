@@ -7,8 +7,6 @@ import { createBrowserHistory } from "history";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 export const history = createBrowserHistory();
 
-
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
