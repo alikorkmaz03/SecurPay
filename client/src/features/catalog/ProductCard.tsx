@@ -48,9 +48,9 @@ export function ProductCard({ product }: Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <LoadingButton 
-        loading={loading} 
-        onlClick={()=>handleAddItem(product.id)} 
+        <LoadingButton
+        loading={loading}
+        onClick={()=>handleAddItem(product.id)}        
         size="small">Sepete Ekle</LoadingButton>
         <Button component={Link} to={`/catalog/${product.id}`}  size="small">İncele</Button>
       </CardActions>
