@@ -51,19 +51,23 @@ namespace API.Controllers
 
             if(result) return CreatedAtRoute("GetBasket",MapBasketToDto(basket));//201: Sunucu tarafından isteğin yerine getirildiği ve yeni bir kaynak oluşturulduğu anlamına gelir.
 
-            return BadRequest(new ProblemDetails{Title="Problem saving item to basket"});
+            return BadRequest(new ProblemDetails{Title="Problem saving item to basket!..."});
         }
 
-        // [HttpDelete]
-        // public async Task<ActionResult> RemoveBasketItem(int productId,int quantity)
-        // {   
-        //     //Get basket
+        [HttpDelete]
+        public async Task<ActionResult> RemoveBasketItem(int productId,int quantity)
+        {   
+            //Get basket
+              var basket =await RetrieveBasket();
+            //Remove item or reduce quantity
+            if(basket==null) return NotFound();
+            //Save Changes
+            basket.RemoveItem(productId,quantity);
+            var result= await _context.SaveChangesAsync()>0;
+            if(result)  return Ok() ;
 
-        //     //Remove item or reduce quantity
-
-        //     //Save Changes
-        //     return await ;
-        // }
+            return BadRequest(new ProblemDetails{Title="Problem removing item from to basket!..."});
+        }
          private async Task<Basket> RetrieveBasket()
         {
             return await _context.Baskets
