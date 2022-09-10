@@ -6,7 +6,7 @@ import { history } from "../..";//index.tsx ten geliyor
 const sleep= ()=>new Promise(resolve=>setTimeout(resolve,500));
 
 axios.defaults.baseURL='http://localhost:5000/api/';
-
+axios.defaults.withCredentials=true;
 //Arrow Function ile kullanım
 const responseBody = (response:AxiosResponse)=>response.data;
 //axios interceptors

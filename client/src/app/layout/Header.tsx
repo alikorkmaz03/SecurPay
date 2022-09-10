@@ -4,8 +4,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Button,
-  SwipeableDrawer,
   Switch,
   ListItem,
   List,

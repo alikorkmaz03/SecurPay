@@ -19,11 +19,12 @@ interface Props {
 }
 export function ProductCard({ product }: Props) {
   const [loading,setLoading] = useState(false);
+
   function handleAddItem(productId:number){
     setLoading(true);
     agent.Basket.addItem(productId)
     .catch(error=>console.log(error))
-    .finally(()=>setLoading(true));
+    .finally(()=>setLoading(false));
   }
   return (
     <Card>
@@ -50,7 +51,7 @@ export function ProductCard({ product }: Props) {
       <CardActions>
         <LoadingButton
         loading={loading}
-        onClick={()=>handleAddItem(product.id)}        
+        onClick={() => handleAddItem(product.id)}        
         size="small">Sepete Ekle</LoadingButton>
         <Button component={Link} to={`/catalog/${product.id}`}  size="small">İncele</Button>
       </CardActions>
