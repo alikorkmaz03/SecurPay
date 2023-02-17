@@ -1,5 +1,5 @@
 import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -12,8 +12,31 @@ import Header from "./Header";
 import 'react-toastify/dist/ReactToastify.css'
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
+import BasketPage from "../../features/basket/BasketPage";
+import { useNtStoreContext } from "../context/NtStoreContextValue";
+import agent from "../api/agent";
+import LoadingComponent from "./LoadingComponent";
+import { getCookie } from "../util/util";
 
 function App() {
+  const {setBasket} =useNtStoreContext();
+  const[loading,setLoading]=useState(true);
+
+  useEffect(()=>{
+
+    const buyerId=getCookie('buyerId');
+    if(buyerId){
+      agent.Basket.get()
+      .then(basket=> setBasket(basket))
+      .catch(error=>console.log(error))
+      .finally(()=>setLoading(false));
+    }
+    else {
+      setLoading(false);
+    }  
+    
+  },[setBasket])
+
   const[darkMode,setDarkMode]=useState(false);
   const palletType=darkMode ? 'dark' : 'light';
   const theme =createTheme({
@@ -29,6 +52,8 @@ function App() {
   {
     setDarkMode(!darkMode);
   }
+
+  if (loading) return <LoadingComponent message="Uygulama başlatılıyor.."/>
   //  const [products, setProducts] =useState([
   //     {name: 'product1',price:100.00},
   //     {name: 'product2',price:200.00},
@@ -56,6 +81,7 @@ function App() {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/contact' element={<ContactPage/>} />
         <Route path='/server-error' element={<ServerError/>} />
+        <Route path='/basket' element={<BasketPage/>} />
         <Route path='*' element={<NotFound/>} />
         </Routes>
       </Container>
