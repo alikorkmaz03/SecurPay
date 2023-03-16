@@ -11,7 +11,7 @@ import {
   Box,
 } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
-import { useNtStoreContext } from "../context/NtStoreContextValue";
+import { useAppSelector } from "../store/configureStore";
 
 interface Props {
   darkMode: boolean;
@@ -41,7 +41,7 @@ const navStyles = [
   },
 ];
 export default function Header({ darkMode, handleThemeChangeColor }: Props) {
-  const {basket}=useNtStoreContext();
+  const {basket}=useAppSelector(state=>state.basket);
   const itemCount=basket?.items.reduce((sum,item)=>sum+item.quantity,0)
   
   return (

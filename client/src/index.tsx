@@ -15,11 +15,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <NtStoreProvider>
+     
       <Provider store={store}>
       <RouterProvider router={router}/>  
       </Provider>   
-    </NtStoreProvider>
+    
   </React.StrictMode>
 );
 
