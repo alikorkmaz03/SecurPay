@@ -93,7 +93,7 @@ export default function BasketPage() {
                   {/* sepetten ürün çıkarmak için */}
                   <LoadingButton
                     loading={
-                      status.loading && status.name == "rem" + item.productId
+                      status.loading && status.name === "rem" + item.productId
                     }
                     onClick={() =>
                       handleRemoveItem(
@@ -110,7 +110,7 @@ export default function BasketPage() {
                   {item.quantity}
                   <LoadingButton
                     loading={
-                      status.loading && status.name == "add" + item.productId
+                      status.loading && status.name === "add" + item.productId
                     }
                     onClick={() =>
                       handleAddItem(item.productId, "add" + item.productId)
@@ -128,7 +128,7 @@ export default function BasketPage() {
                 <TableCell align="right">
                   <LoadingButton
                     loading={
-                      status.loading && status.name == "del" + item.productId
+                      status.loading && status.name === "del" + item.productId
                     }
                     onClick={() =>
                       handleRemoveItem(
