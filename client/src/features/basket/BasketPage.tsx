@@ -13,11 +13,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import agent from "../../app/api/agent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { removeItem, setBasket } from "./basketSlice";
+import {  addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
 import BasketSummary from "./BasketSummary";
 
 export default function BasketPage() {
@@ -34,28 +32,11 @@ export default function BasketPage() {
 
   // if(loading) return <LoadingComponent message="Sepete Ekleniyor..."/>
   // const { basket, setBasket, removeItem } = useNtStoreContext();
-  const {basket}=useAppSelector(state=>state.basket);
+  const {basket,status}=useAppSelector(state=>state.basket);
   const dispatch=useAppDispatch();
-  const [status, setStatus] = useState({
-    loading: false,
-    name: "",
-  });
+ 
 
-  function handleAddItem(productId: number, name: string) {
-    setStatus({ loading: true, name });
-    agent.Basket.addItem(productId)
-      .then((basket) => dispatch(setBasket(basket)))
-      .catch((error) => console.log(error))
-      .finally(() => setStatus({ loading: false, name: "" }));
-  }
-
-  function handleRemoveItem(productId: number, quantity = 1, name: string) {
-    setStatus({ loading: true, name });
-    agent.Basket.removeItem(productId, quantity)
-      .then(() =>dispatch(removeItem({productId,quantity}))) /*burası çnemli burayı {} içine aldık tek paramete istiyor ancak ikiside gerekli bu sebeble {} içine alarak sorun çözüldü */
-      .catch((error) => console.log(error))
-      .finally(() => setStatus({ loading: true, name: "" }));
-  }
+ 
 
   if (!basket)
     return <Typography variant="h3">Sepetinizde hiç ürün yok</Typography>;
@@ -96,14 +77,10 @@ export default function BasketPage() {
                   {/* sepetten ürün çıkarmak için */}
                   <LoadingButton
                     loading={
-                      status.loading && status.name === "rem" + item.productId
+                     status ==='pendingRemoveItem' + item.productId + 'rem'
                     }
                     onClick={() =>
-                      handleRemoveItem(
-                        item.productId,
-                        1,
-                        "rem" + item.productId
-                      )
+                      dispatch(removeBasketItemAsync({productId:item.productId,quantity:1,name:'rem'}))
                     }
                     color="error"
                     size="small"
@@ -113,10 +90,10 @@ export default function BasketPage() {
                   {item.quantity}
                   <LoadingButton
                     loading={
-                      status.loading && status.name === "add" + item.productId
+                      status ==='pendingAddItem'+ item.productId
                     }
                     onClick={() =>
-                      handleAddItem(item.productId, "add" + item.productId)
+                      dispatch(addBasketItemAsync({productId:item.productId,quantity:1}))
                     }
                     color="success"
                     size="small"
@@ -131,14 +108,10 @@ export default function BasketPage() {
                 <TableCell align="right">
                   <LoadingButton
                     loading={
-                      status.loading && status.name === "del" + item.productId
+                      status ==='pendingRemoveItem'+ item.productId +'del'
                     }
                     onClick={() =>
-                      handleRemoveItem(
-                        item.productId,
-                        item.quantity,
-                        "del" + item.productId
-                      )
+                      dispatch(removeBasketItemAsync({productId:item.productId,quantity:item.quantity,name:'del'}))
                     }
                     color="error"
                     size="small"
