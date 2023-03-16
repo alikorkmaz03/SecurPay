@@ -8,7 +8,7 @@ export interface CounterState {
 
 const initialState: CounterState = {
     data: 42,
-    title: 'YARC (yet another redux counter)'
+    title: 'YARC (Redux ile Sayac)'
 }
 
 export function increment(amount=1){
