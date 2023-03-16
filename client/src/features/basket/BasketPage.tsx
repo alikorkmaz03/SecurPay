@@ -16,7 +16,6 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import agent from "../../app/api/agent";
-import { useNtStoreContext } from "../../app/context/NtStoreContextValue";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { removeItem, setBasket } from "./basketSlice";
 import BasketSummary from "./BasketSummary";

@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./app/layout/styles.css";
-import reportWebVitals from "./reportWebVitals";
-import { NtStoreProvider } from "./app/context/NtStoreContextValue";
+import reportWebVitals from "./reportWebVitals"; 
 import {store} from './app/store/configureStore';
 import { RouterProvider } from "react-router-dom";
 import { router } from "./app/router/Routes";
@@ -15,11 +14,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-     
       <Provider store={store}>
       <RouterProvider router={router}/>  
-      </Provider>   
-    
+      </Provider>
   </React.StrictMode>
 );
 
