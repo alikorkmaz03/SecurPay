@@ -1,23 +1,13 @@
 import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
-import AboutPage from "../../features/about/AboutPage";
-import Catalog from "../../features/catalog/Catalog";
-import ProductDetails from "../../features/catalog/ProductDetails";
-import ContactPage from "../../features/contact/ContactPage";
-import HomePage from "../../features/home/HomePage";
 import Header from "./Header";
 import 'react-toastify/dist/ReactToastify.css'
-import ServerError from "../errors/ServerError";
-import NotFound from "../errors/NotFound";
-import BasketPage from "../../features/basket/BasketPage";
 import { useNtStoreContext } from "../context/NtStoreContextValue";
 import agent from "../api/agent";
 import LoadingComponent from "./LoadingComponent";
 import { getCookie } from "../util/util";
-import CheckoutPage from "../../features/checkout/CheckoutPage";
 
 function App() {
   const {setBasket} =useNtStoreContext();
@@ -75,17 +65,7 @@ function App() {
       <CssBaseline />
       <Header darkMode={darkMode} handleThemeChangeColor={handleThemeChangeColor}/>
       <Container>
-        <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path='/catalog'  element={<Catalog/>} />
-        <Route path='/catalog/:id'  element={<ProductDetails/>} />
-        <Route path='/about' element={<AboutPage />} />
-        <Route path='/contact' element={<ContactPage/>} />
-        <Route path='/server-error' element={<ServerError/>} />
-        <Route path='/basket' element={<BasketPage/>} />
-        <Route path='/checkout' element={<CheckoutPage/>} />
-        <Route path='*' element={<NotFound/>} />
-        </Routes>
+      <Outlet />
       </Container>
     </ThemeProvider> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
   );

@@ -1,11 +1,11 @@
 import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import { useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 export default function ServerError(){
     
-    const location = useLocation();
-    const state = location.state as any;    
-    const navigate =useNavigate(); 
+    
+    const navigate =useNavigate();
+    const {state} = useLocation();  
     return(
     <Container component={Paper}>        
         {state?.error ?(

@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 // import { request } from "http";
 import { toast } from "react-toastify";
-import { history } from "../..";//index.tsx ten geliyor
+import { router } from "../router/Routes";
 
-const sleep= ()=>new Promise(resolve=>setTimeout(resolve,1000));
+const sleep= ()=>new Promise(resolve=>setTimeout(resolve,500));
 
 axios.defaults.baseURL='http://localhost:5000/api/';
 axios.defaults.withCredentials=true;
@@ -47,7 +47,7 @@ axios.interceptors.response.use(async response =>{
             // //Çözüm ServerError.tsx dosyasına aşağıdaki kod eklenmeli
             // const location = useLocation();
             // const state = location.state as any; 
-            history.push('/server-error',{error:data});
+            router.navigate('/server-error', {state: {error: data}})
             break;
     
         default:

@@ -3,21 +3,25 @@ import ReactDOM from "react-dom/client";
 import "./app/layout/styles.css";
 import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserHistory } from "history";
-import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+// import { createBrowserHistory } from "history"; 
 import { NtStoreProvider } from "./app/context/NtStoreContextValue";
-export const history = createBrowserHistory();
+import {configureStore} from './app/store/configureStore';
+import { BrowserRouter, RouterProvider } from "react-router-dom";
+import { router } from "./app/router/Routes";
+import { Provider } from "react-redux";
+
+const store =configureStore();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <HistoryRouter history={history}>
-      <NtStoreProvider>
-        <App />
-      </NtStoreProvider>      
-    </HistoryRouter>
+    <NtStoreProvider>
+      <Provider store={store}>
+      <RouterProvider router={router}/>  
+      </Provider>   
+    </NtStoreProvider>
   </React.StrictMode>
 );
 
