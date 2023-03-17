@@ -18,26 +18,9 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import {  addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
 import BasketSummary from "./BasketSummary";
 
-export default function BasketPage() {
-  // const [loading,setLoading]=useState(true);
-  // const [basket,setBasket]=useState<Basket | null>(null);
-
-  // useEffect(()=>{
-  //     agent.Basket.get()
-  //     .then(basket=>setBasket(basket))
-  //     .catch(error=>console.log(error))
-  //     .finally(()=>setLoading(false))
-
-  // },[])
-
-  // if(loading) return <LoadingComponent message="Sepete Ekleniyor..."/>
-  // const { basket, setBasket, removeItem } = useNtStoreContext();
+export default function BasketPage() { 
   const {basket,status}=useAppSelector(state=>state.basket);
   const dispatch=useAppDispatch();
- 
-
- 
-
   if (!basket)
     return <Typography variant="h3">Sepetinizde hiç ürün yok</Typography>;
   return (
