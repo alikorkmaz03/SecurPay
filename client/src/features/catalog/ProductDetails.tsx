@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../../app/models/product";
-import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { LoadingButton } from "@mui/lab";
@@ -52,10 +50,7 @@ export default function ProductDetails() {
       const updatedQuantity = item.quantity - quantity;
      dispatch(removeBasketItemAsync({productId:product?.id!,quantity:updatedQuantity}))
     }
-  }
-  // useEffect(()=>{
-
-  // },[])
+  } 
 
   if (productStatus.includes("pending")) return <LoadingComponent message="Ürün Yükleniyor..." />;
   if (!product) return <NotFound />;
@@ -116,7 +111,7 @@ export default function ProductDetails() {
           <Grid item xs={6}>
             <LoadingButton
               disabled={(item?.quantity === quantity)|| (!item && quantity===0)}
-              loading={status.includes('pendingRemoveItem' + item?.productId)}
+              loading={status.includes('pending')}
               onClick={handleUpdateCart}
               sx={{ height: "55px" }}
               color="primary"
