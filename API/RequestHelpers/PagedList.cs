@@ -24,10 +24,7 @@ namespace API.RequestHelpers
         {
             // Sayfalamanın başlayacağı öğeye atlayın ve belirtilen sayıda öğe alın
             var count = await query.CountAsync();
-            var items = await 
-            query.Skip((pageNumber-1)*pageSize)// Belirtilen sayfa numarasına göre öğeleri atla
-                 .Take(pageSize)// Belirtilen sayıda öğe al
-                 .ToListAsync();// Alınan öğeleri bir listeye dönüştür
+            var items = await query.Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();
             return new PagedList<T>(items,count,pageNumber,pageSize);
             
         }
