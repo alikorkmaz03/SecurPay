@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.RequestHelpers
+{
+    public class PagedList<T>:List<T>
+    {   
+        //Dinamik liste çevirmesi için kurduğumuz yapıdan aşağıdaki yapıyı oluşturmak için ctrl+"." yapıp Generate Contructor diyoruz.
+        public PagedList(List<T> items,int count, int pageNumber,int pageSize)
+        {
+            MetaData = new MetaData{
+                TotalCount=count,
+                PageSize=pageSize,
+                CurrentPage=pageNumber,
+                TotalPages= (int)Math.Ceiling(count/ (double)pageSize)
+            };
+            AddRange(items);
+        }
+        public MetaData MetaData { get; set; }
+        public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query,int pageNumber,int pageSize)
+        {
+            // Sayfalamanın başlayacağı öğeye atlayın ve belirtilen sayıda öğe alın
+            var count = await query.CountAsync();
+            var items = await 
+            query.Skip((pageNumber-1)*pageSize)// Belirtilen sayfa numarasına göre öğeleri atla
+                 .Take(pageSize)// Belirtilen sayıda öğe al
+                 .ToListAsync();// Alınan öğeleri bir listeye dönüştür
+            return new PagedList<T>(items,count,pageNumber,pageSize);
+            
+        }
+        
+    }
+}
