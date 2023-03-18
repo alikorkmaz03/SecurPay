@@ -8,3 +8,13 @@ export interface Product{
     brand: string;
     quantityInStock?: number;
 }///? işareti ekleyerek bu parametre zorunlu olarak data beklemicek boşda geçilebilir dedik yani :)
+
+
+export interface ProductParams {
+    orderBy: string;
+    searchTerm?: string;
+    types?: string[];
+    brands?: string[];
+    pageNumber: number;
+    pageSize: number;
+}

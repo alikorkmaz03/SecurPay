@@ -15,7 +15,7 @@ const sortOptions = [
 export default function Catalog() {
     const products = useAppSelector(productSelectors.selectAll);
     const dispatch = useAppDispatch();
-    const { productsLoaded, status, filterLoaded, brands, types } = useAppSelector(state => state.catalog);
+    const { productsLoaded, status, filtersLoaded, brands, types } = useAppSelector(state => state.catalog);
 
     useEffect(() => {
         if (!productsLoaded) dispatch(fetchProductsAsync());
@@ -23,9 +23,9 @@ export default function Catalog() {
     }, [productsLoaded, dispatch]); //[] Product için 
 
     useEffect(() => {
-        if (!filterLoaded) dispatch(fetchFilters());
+        if (!filtersLoaded) dispatch(fetchFilters());
 
-    }, [filterLoaded, dispatch]); //[] filtreleme için API yi iki kere çağırıyordu ayrı ayrı yazdık
+    }, [filtersLoaded, dispatch]); //[] filtreleme için API yi iki kere çağırıyordu ayrı ayrı yazdık
 
 
     if (status.includes('pending')) return <LoadingComponent message="Ürünler Yükleniyor..." />;

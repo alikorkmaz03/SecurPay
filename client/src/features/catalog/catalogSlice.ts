@@ -1,8 +1,17 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { stat } from "fs";
 import agent from "../../app/api/agent";
-import { Product } from "../../app/models/product";
+import { Product, ProductParams } from "../../app/models/product";
 import { RootState } from "../../app/store/configureStore";
+
+interface CatalogState {
+    productsLoaded: boolean;
+    filtersLoaded: boolean;
+    status: string;
+    brands: string[];
+    types: string[];
+    productParams: ProductParams;
+
+}
 
 const productAdapter = createEntityAdapter<Product>();
 
@@ -42,16 +51,34 @@ export const fetchFilters = createAsyncThunk(
     }
 )
 
+function initParams() {
+    return {
+        pageNumber: 1,
+        pageSize: 9,
+        orderBy: 'name'
+    }
+}
+
 export const catalogSlice = createSlice({
     name: 'catalog',
     initialState: productAdapter.getInitialState({
         productsLoaded: false,
-        filterLoaded: false,
+        filtersLoaded: false,
         status: 'idle',
         brands: [],
-        types:[]
+        types: [],
+        productParams:initParams()
     }),
-    reducers: {},
+    reducers: {
+        setProductParams: (state, action) => {
+            state.productsLoaded = false;
+            state.productParams = { ...state.productParams, ...action.payload };
+        },
+        resetProductParams: (state) => {
+            state.productParams = initParams();
+
+        }
+    },
     extraReducers: (builder => {
 
         //All Products Catalog Page
@@ -88,7 +115,7 @@ export const catalogSlice = createSlice({
         builder.addCase(fetchFilters.fulfilled,(state,action)=> {
             state.brands = action.payload.brands;
             state.types = action.payload.types;
-            state.filterLoaded = true;
+            state.filtersLoaded = true;
             state.status = 'idle';
         });
         builder.addCase(fetchFilters.rejected, (state, action) => {
@@ -99,3 +126,5 @@ export const catalogSlice = createSlice({
 })
 
 export const productSelectors = productAdapter.getSelectors((state: RootState) => state.catalog);
+
+export const { setProductParams, resetProductParams } = catalogSlice.actions;
