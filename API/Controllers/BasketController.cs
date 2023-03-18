@@ -41,7 +41,7 @@ namespace API.Controllers
 
              //Get Product
             var product = await _context.Products.FindAsync(productId);
-            if(product==null) return NotFound();
+            if(product==null) return BadRequest(new ProblemDetails {Title="Ürün Bulunamadı..."});
 
             //Add Item
             basket.AddItem(product,quantity);
@@ -51,7 +51,7 @@ namespace API.Controllers
 
             if(result) return CreatedAtRoute("GetBasket",MapBasketToDto(basket));//201: Sunucu tarafından isteğin yerine getirildiği ve yeni bir kaynak oluşturulduğu anlamına gelir.
 
-            return BadRequest(new ProblemDetails{Title="Problem saving item to basket!..."});
+            return BadRequest(new ProblemDetails{Title="Ürün Sepete Eklenirken Sorun!..."});
         }
 
         [HttpDelete]
@@ -66,7 +66,7 @@ namespace API.Controllers
             var result= await _context.SaveChangesAsync()>0;
             if(result)  return Ok() ;
 
-            return BadRequest(new ProblemDetails{Title="Problem removing item from to basket!..."});
+            return BadRequest(new ProblemDetails{Title="Ürün Sepetten Çıkarılırken Sorun!..."});
         }
          private async Task<Basket> RetrieveBasket()
         {

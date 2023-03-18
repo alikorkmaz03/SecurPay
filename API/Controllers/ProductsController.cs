@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,18 @@ namespace API.Controllers
             _context = context;
 
         }
+        
+         [HttpGet] //****QUERY İLE ÜRÜNLERİ LLİSTELEME Çalışır ****
+        public async Task<ActionResult<List<Product>>> GetProducts(string orderBy)
+        {
+            var query= _context.Products
+                .Sort(orderBy)
+                .AsQueryable();
+               
+                return await query.ToListAsync();
+        }
+
+
         // [HttpGet] //****Senkron Çalışır ****
         // public ActionResult<List<Product>>GetProducts()
         // {
@@ -27,12 +40,13 @@ namespace API.Controllers
 
         //     return Ok(products);
         // }
-        [HttpGet] //****ASenkron Çalışır ****
-        public async Task<ActionResult<List<Product>>> GetProducts()
-        {
-            return await _context.Products.ToListAsync();
+        // [HttpGet] //****ASenkron Çalışır ****
+        // public async Task<ActionResult<List<Product>>> GetProducts()
+        // {
+        //     return await _context.Products.ToListAsync();
 
-        }
+        // }
+
 
         // [HttpGet("{Id}")]//****ASenkron Çalışır ****
         // public ActionResult<Product>GetProductById(int Id)
