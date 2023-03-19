@@ -1,9 +1,11 @@
-import { Box, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Pagination, Paper, Radio, RadioGroup,Typography } from "@mui/material";
+import { FormGroup, Grid, Paper} from "@mui/material";
 import { useEffect } from "react";
+import AppPagination from "../../app/components/AppPagination";
+import ChecboxButtons from "../../app/components/CheckboxButtons";
 import RadioButtonGroup from "../../app/components/RadioButtonGroup";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { fetchFilters, fetchProductsAsync, productSelectors, setProductParams } from "./catalogSlice";
+import { fetchFilters, fetchProductsAsync, productSelectors, setPageNumber, setProductParams } from "./catalogSlice";
 import ProductList from "./ProductList";
 import ProductSearch from "./ProductSearch";
 
@@ -16,8 +18,8 @@ const sortOptions = [
 export default function Catalog() {
     const products = useAppSelector(productSelectors.selectAll);
     const dispatch = useAppDispatch();
-    const { productsLoaded, status, filtersLoaded, brands, types,productParams } = useAppSelector(state => state.catalog);
-    
+    const { productsLoaded, status, filtersLoaded, brands, types, productParams, metaData} = useAppSelector(state => state.catalog);//Reduxtan birşey almak istediğimizde catalog için burada tanımlıyoruz.
+
 
     useEffect(() => {
         if (!productsLoaded) dispatch(fetchProductsAsync());
@@ -30,37 +32,38 @@ export default function Catalog() {
     }, [filtersLoaded, dispatch]); //[] filtreleme için API yi iki kere çağırıyordu ayrı ayrı yazdık
 
 
-    if (status.includes('pending')) return <LoadingComponent message="Ürünler Yükleniyor..." />;
+
+     if (!filtersLoaded) return <LoadingComponent message="Ürünler Yükleniyor..." />;
 
     return (
-        <Grid container spacing={4}>
+        <Grid container columnSpacing={4}>
             <Grid item xs={3}>
                 <Paper sx={{ mb: 2 }}>
-                   <ProductSearch/>
+                    <ProductSearch />
                 </Paper>
                 <Paper sx={{ mb: 2, p: 2 }}>
                     <RadioButtonGroup
                         selectedValue={productParams.orderBy}
                         options={sortOptions}
-                        onChange={(e) => dispatch(setProductParams({orderBy:e.target.value}))}            
+                        onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
+                    />
+                </Paper>
+
+                <Paper sx={{ mb: 2, p: 2 }}>
+                    <ChecboxButtons
+                        items={brands}
+                        checked={productParams.brands}
+                        onChange={(items: string[]) => dispatch(setProductParams({ brands: items }))}
                     />
                 </Paper>
 
                 <Paper sx={{ mb: 2, p: 2 }}>
                     <FormGroup>
-                        {brands.map(brand => (
-                            <FormControlLabel key={brand} control={<Checkbox />} label={brand} />
-                        ))}
-
-                    </FormGroup>
-                </Paper>
-
-                <Paper sx={{ mb: 2, p: 2 }}>
-                    <FormGroup>
-                        {types.map(type => (
-                            <FormControlLabel key={type} control={<Checkbox />} label={type} />
-                        ))}
-
+                        <ChecboxButtons
+                            items={types}
+                            checked={productParams.types}
+                            onChange={(items: string[]) => dispatch(setProductParams({ types: items }))}
+                        />
                     </FormGroup>
                 </Paper>
             </Grid>
@@ -68,19 +71,13 @@ export default function Catalog() {
                 <ProductList products={products} />
             </Grid>
             <Grid item xs={3} />
-            <Grid item xs={9}>
-                <Box display='flex' sx={{ mb: 2 }} justifyContent='space-between' alignItems='center'>
-                    <Typography>
-                        20 içerikten 10 tanesi görüntüleniyor
-                    </Typography>
-                    <Pagination
-                        color='secondary'
-                        size='large'
-                        count={10}
-                        page={2}
-
+            <Grid item xs={9} sx={{ mb: 2 }}>
+                {metaData &&
+                <AppPagination
+                    metaData={metaData}
+                    onPageChange={(page: number) => dispatch(setPageNumber({pageNumber:page})) }
                     />
-                </Box>
+                }
             </Grid>
         </Grid>
     );
