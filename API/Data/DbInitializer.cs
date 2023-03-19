@@ -20,7 +20,7 @@ namespace API.Data
                     Email = "info@securepay.com",
 
                 };
-                await userManager.CreateAsync(user, "Aa123456789");
+                await userManager.CreateAsync(user, "Aa123456789*+");
                 await userManager.AddToRoleAsync(user, "Member");
 
                 var admin = new User
@@ -29,7 +29,7 @@ namespace API.Data
                     Email = "admin@securepay.com"
                 };
 
-                await userManager.CreateAsync(admin, "Aa123456789");
+                await userManager.CreateAsync(admin, "Aa123456789*+");
                 await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });                
             }
             if(context.Products.Any()) return;

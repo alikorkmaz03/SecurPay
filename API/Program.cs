@@ -26,8 +26,12 @@ builder.Services.AddDbContext<NtContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("NtDefaultConnetion"));
 });
 builder.Services.AddCors();//Cors Origin ayarı için eklendi.
-//Rol ve Authentication için eklendi
-builder.Services.AddIdentityCore<User>()
+//Rol ve Login için eklendi
+builder.Services.AddIdentityCore<User>(opt =>
+{   
+    //Email kontrolü yapıyoruz duplicate email girilmemesi için
+    opt.User.RequireUniqueEmail = true;
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<NtContext>();
 

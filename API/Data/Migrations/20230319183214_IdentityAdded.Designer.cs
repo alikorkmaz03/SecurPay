@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(NtContext))]
-    [Migration("20230319173057_IdentityAdded")]
+    [Migration("20230319183214_IdentityAdded")]
     partial class IdentityAdded
     {
         /// <inheritdoc />
@@ -182,15 +182,15 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fc5d3970-6d53-4184-af9e-32ef07e21984",
-                            ConcurrencyStamp = "7b39d2cf-f1b5-4afd-8682-24e2213648a4",
+                            Id = "1cd06103-7ee2-47c7-8364-521c848e814d",
+                            ConcurrencyStamp = "38134a98-81e7-48a6-ad0b-e4ffaab098e3",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "05101302-0247-4a20-8eda-125e96ec12f8",
-                            ConcurrencyStamp = "9f2058e6-139a-477e-9317-5263d6729f7d",
+                            Id = "f6325d03-ea0c-4d30-bbd5-8013f088abff",
+                            ConcurrencyStamp = "864cf40e-f6e3-4a64-95f0-99895c071a3a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
