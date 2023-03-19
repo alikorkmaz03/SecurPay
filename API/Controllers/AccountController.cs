@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize]
+    
     public class AccountController :BaseApiController
     {
         private readonly UserManager<User> _userManager;

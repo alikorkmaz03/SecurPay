@@ -19,10 +19,41 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+//*************************************************************************
+///JWT Configuration
 builder.Services.AddSwaggerGen(c =>
 {
+    // JWT kimlik doğrulama şeması için OpenApiSecurityScheme nesnesi oluşturuluyor.
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",// Bearer token formatı "JWT" olarak belirlenir.
+        Name = "Authorization",// Header'da kullanılacak parametre adı "Authorization" olarak belirlenir.
+        In = ParameterLocation.Header,// Parametrenin HTTP Header'da bulunacağını belirtir.
+        Type = SecuritySchemeType.ApiKey,// Güvenlik şeması türü API anahtarı olarak belirlenir.
+        Scheme = JwtBearerDefaults.AuthenticationScheme,// Şema, JwtBearerDefaults.AuthenticationScheme ile belirlenir.
+        Description = "Put Bearer + Token bilgisini aşağıdaki kutuya yapıştırın",// Swagger UI'de gösterilecek açıklama metni.
+        Reference = new OpenApiReference // Swagger belgelendirmesi için referans ayarları.
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme, // Referans için kimlik doğrulama şeması adı kullanılır.
+            Type = ReferenceType.SecurityScheme// Referans türü güvenlik şeması olarak belirlenir.
+        }
+
+    };
+    // Oluşturulan JWT güvenlik şemasını Swagger belgelendirmesine ekler.
+    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+
+            jwtSecurityScheme,Array.Empty<string>()
+        }
+    });
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "NtStoreAPI", Version = "v1" });
+
 });
+//*************************************************************************
 
 
 builder.Services.AddDbContext<NtContext>(opt =>
@@ -66,7 +97,12 @@ app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        // "persistAuthorization": true ile, kullanıcının yaptığı API kimlik doğrulama işlemi, sayfa yeniden yüklendiğinde veya farklı bir API endpoint'ine geçtiğinde de korunur.
+        // Bu, kullanıcıların her endpoint'te yeniden kimlik doğrulama yapmasına gerek kalmadan API'yi test etmelerine olanak tanır.
+        c.ConfigObject.AdditionalItems.Add("persistAuthorization", true); ////önemli!!
+    });
 }
 
 //app.UseHttpsRedirection();
