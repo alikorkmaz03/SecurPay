@@ -39,16 +39,7 @@ axios.interceptors.response.use(async response =>{
             toast.error(data.title);
             break;
 
-        case 500:
-            // toast.error(data.title);ç
-            //hatalı kod 
-            // history.push({
-            //     pathname:'/server-error',state : {error.data}
-                 
-            // });
-            // //Çözüm ServerError.tsx dosyasına aşağıdaki kod eklenmeli
-            // const location = useLocation();
-            // const state = location.state as any; 
+        case 500:           
             router.navigate('/server-error', {state: {error: data}})
             break;
     
@@ -59,14 +50,8 @@ axios.interceptors.response.use(async response =>{
 
 })
 
-//Normal Kullanım/
-// function responseBodyFn(response:AxiosResponse){
-//     return response.data;
-// }
-
-
 const requests = {
-    get:(url:string)=>axios.get(url).then(responseBody),
+    get: (url: string, params?: URLSearchParams) => axios.get(url, {params}).then(responseBody),
     post:(url:string,body:{})=>axios.post(url,body).then(responseBody),
     put:(url:string,body:{})=>axios.put(url,body).then(responseBody),
     delete:(url:string)=>axios.delete(url).then(responseBody),
@@ -75,7 +60,7 @@ const requests = {
 
 const Catalog=
 {
-    list:()=> requests.get('products'),
+    list:(params:URLSearchParams)=> requests.get('products',params),
     details: (id: number) => requests.get(`products/${id}`),
     fetchFilters: () => requests.get('products/filters'),    
 }
