@@ -4,13 +4,34 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
     public static class DbInitializer
     {
-       public static void Initialize(NtContext context)
+       public static async Task Initialize(NtContext context,UserManager<User> userManager)
        {
+            if (!userManager.Users.Any())
+            {
+                var user = new User
+                {
+                    UserName = "securepay",
+                    Email = "info@securepay.com",
+
+                };
+                await userManager.CreateAsync(user, "Aa123456789");
+                await userManager.AddToRoleAsync(user, "Member");
+
+                var admin = new User
+                {
+                    UserName = "admin",
+                    Email = "admin@securepay.com"
+                };
+
+                await userManager.CreateAsync(admin, "Aa123456789");
+                await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });                
+            }
             if(context.Products.Any()) return;
             var products= new List<Product>
             {
