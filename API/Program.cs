@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Text;
 using API.Data;
 using API.Entities;
 using API.Middleware;
 using API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,23 +32,37 @@ builder.Services.AddDbContext<NtContext>(opt =>
 builder.Services.AddCors();//Cors Origin ayarı için eklendi.
 //Rol ve Login için eklendi
 builder.Services.AddIdentityCore<User>(opt =>
-{   
+{
     //Email kontrolü yapıyoruz duplicate email girilmemesi için
     opt.User.RequireUniqueEmail = true;
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<NtContext>();
 
-builder.Services.AddAuthentication();
+//*************************************************************************
+///JWT Kontrolü için eklendi.
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
+        };
+    });
+ 
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
-
+//*************************************************************************
 var app = builder.Build();
 
 
 //Configure the HTTP request pipeline
 app.UseMiddleware<ExceptionMiddleware>();
-  
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -61,9 +78,8 @@ app.UseCors(opt =>
     opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5000");
 
 });
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 
@@ -83,6 +99,5 @@ catch (Exception ex)
 }
 
 app.Run();
- 
 
- 
+
