@@ -16,7 +16,7 @@ export default function ServerError(){
             
             </>
         ):(
-            <Typography variant='h5'  gutterBottom>Server Error</Typography>  
+            <Typography variant='h5'  gutterBottom>Sunucu Hatası</Typography>  
             
         )}
         <Button onClick={()=>navigate('/catalog')}>Ürünlerimize Geri Dön</Button>

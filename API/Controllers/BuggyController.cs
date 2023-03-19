@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,12 +16,12 @@ namespace API.Controllers
            [HttpGet("bad-requests")]
         public ActionResult GetBadRequest()
         { 
-            return BadRequest(new ProblemDetails{Title="This is a bad request"});
+            return BadRequest(new ProblemDetails{Title="Hatalı İstek"});
         }
            [HttpGet("unauthorised")]
         public ActionResult GetUnAuthorised()
         { 
-            return Unauthorized();
+            return Unauthorized(new ProblemDetails { Title="Hatalı Giriş"});
         }
            [HttpGet("validation-error")]
         public ActionResult GetValidationError()
@@ -33,7 +33,7 @@ namespace API.Controllers
            [HttpGet("server-error")]
         public ActionResult GetServerError()
         { 
-            throw new Exception("This is a server error");
+            throw new Exception("Sunucu Hatası!...");
         }
     }
 }
