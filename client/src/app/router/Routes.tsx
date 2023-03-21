@@ -1,4 +1,4 @@
-import HomePage from "../../features/home/HomePage";
+﻿import HomePage from "../../features/home/HomePage";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../layout/App";
 import Catalog from "../../features/catalog/Catalog";
@@ -10,12 +10,18 @@ import NotFound from "../errors/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+import CheckoutPage from "../../features/checkout/CheckoutPage";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
+            //checkout sayfasının url'ni korumak için yapıldı
+            { element:<RequireAuth/>, children: [
+                { path: 'checkout', element: <CheckoutPage /> },
+            ]},
             { path: '', element: <HomePage /> },
             { path: 'catalog', element: <Catalog /> },
             { path: 'catalog/:id', element: <ProductDetails /> },
@@ -23,6 +29,7 @@ export const router = createBrowserRouter([
             { path: 'contact', element: <ContactPage /> },
             { path: 'server-error', element: <ServerError /> },
             { path: 'not-found', element: <NotFound /> },
+           
             { path: 'basket', element: <BasketPage /> },
             { path: 'login', element: <Login /> },
             { path: 'register', element: <Register /> },

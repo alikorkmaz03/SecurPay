@@ -8,8 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import agent from '../../app/api/agent';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '../../app/store/configureStore';
@@ -20,6 +19,7 @@ const theme = createTheme();
 
 export default function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { isSubmitting, errors, isValid } } = useForm({
         mode:'onTouched'
@@ -28,7 +28,7 @@ export default function Login() {
     async function sumbitForm(data: FieldValues) {
         try {
             await dispatch(signInUser(data));
-            navigate('/catalog');
+            navigate(location.state?.from || '/catalog');
 
         }
         catch (error:any) {
