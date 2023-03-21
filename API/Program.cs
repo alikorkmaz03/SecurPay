@@ -67,8 +67,10 @@ builder.Services.AddIdentityCore<User>(opt =>
     //Email kontrolü yapıyoruz duplicate email girilmemesi için
     opt.User.RequireUniqueEmail = true;
 })
-    .AddRoles<IdentityRole>()
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<NtContext>();
+
+
 
 //*************************************************************************
 ///JWT Kontrolü için eklendi.
