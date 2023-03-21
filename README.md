@@ -3,11 +3,11 @@
 NtStore, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client tarafı React18 ve Entity Framework Core kullanılarak geliştirilmiştir.
 
 ## Client 
-Redux: React uygulamalarında kullanılan bir durum yöneticisidir.
-React Router: Sayfa yönlendirmesi yapmak için kullanılan bir React kütüphanesidir.
-Axios: HTTP istekleri göndermek için kullanılan bir JavaScript kütüphanesidir.
-Material-UI: Material Design prensiplerine uygun tasarım bileşenleri sunan bir React kütüphanesidir.
-
+- Redux: React uygulamalarında kullanılan bir durum yöneticisidir.
+- React Router: Sayfa yönlendirmesi yapmak için kullanılan bir React kütüphanesidir.
+- Axios: HTTP istekleri göndermek için kullanılan bir JavaScript kütüphanesidir.
+- Material-UI: Material Design prensiplerine uygun tasarım bileşenleri sunan bir React kütüphanesidir.
+-  React Hook Form
 ## Özellikler
 
 - Ürün kategorileri ve alt kategorileri oluşturma ve yönetme
@@ -29,7 +29,7 @@ Material-UI: Material Design prensiplerine uygun tasarım bileşenleri sunan bir
 
 - Herhangi bir hata veya sorunla karşılaşırsanız, lütfen bir [issue](https://github.com/alikorkmaz03/NtStore/issues) oluşturun.
 - Katkıda bulunmak için bir [pull request](https://github.com/alikorkmaz03/NtStore/pulls) gönderin.
-- Herhangi bir sorunuz veya öneriniz varsa, lütfen bir [email](mailto:example@example.com) gönderin.
+- Herhangi bir sorunuz veya öneriniz varsa, lütfen bir [email](mailto:alikorkmaz03@gmail.com) gönderin.
 
 ## Lisans
 
