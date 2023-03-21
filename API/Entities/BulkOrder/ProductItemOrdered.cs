@@ -4,7 +4,7 @@ namespace API.Entities.BulkOrder
 {
     
     [Owned] //bir sınıfın başka bir sınıfın parçası olduğunu belirtir
-    public class ProductItemIOrdered
+    public class ProductItemOrdered
     {
         
         public int ProductId { get; set; }
