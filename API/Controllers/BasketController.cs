@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace API.Controllers
 
             if (basket == null) return NotFound();
 
-            return MapBasketToDto(basket);
+            return basket.MapBasketDto();
 
         }
 
@@ -49,7 +50,7 @@ namespace API.Controllers
             //Save Changes
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));//201: Sunucu tarafından isteğin yerine getirildiği ve yeni bir kaynak oluşturulduğu anlamına gelir.
+            if (result) return CreatedAtRoute("GetBasket", basket.MapBasketDto());//201: Sunucu tarafından isteğin yerine getirildiği ve yeni bir kaynak oluşturulduğu anlamına gelir.
 
             return BadRequest(new ProblemDetails { Title = "Ürün Sepete Eklenirken Sorun!..." });
         }
@@ -96,26 +97,6 @@ namespace API.Controllers
 
             return basket;
         }
-        private BasketDto MapBasketToDto(Basket basket)
-        {
-            return new BasketDto
-            {
-                Id = basket.Id,
-                BuyerId = basket.BuyerId,
-                Items = basket.Items.Select(item => new BasketItemDto
-                {
-                    ProductId = item.ProductId,
-                    Name = item.Product.Name,
-                    Price = item.Product.Price,
-                    PictureUrl = item.Product.PictureUrl,
-                    Brand = item.Product.Brand,
-                    Quantity = item.Quantity,
-                    Type = item.Product.Type
-                }).ToList()
-
-            };
-        }
-
 
     }
 }
