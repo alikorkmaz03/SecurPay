@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Entities.BulkOrder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +12,14 @@ namespace API.Data
 {
     public class NtContext : IdentityDbContext<User>
     {
-        public NtContext(DbContextOptions options): base(options)
+        public NtContext(DbContextOptions options) : base(options)
         {
 
         }
 
-
         public DbSet<Product> Products { get; set; }
-
-        public DbSet<Basket> Baskets {get;set;}
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,7 +27,7 @@ namespace API.Data
 
             builder.Entity<IdentityRole>()
                 .HasData(
-                    new IdentityRole { Name = "Member",NormalizedName = "MEMBER" },
+                    new IdentityRole { Name = "Member", NormalizedName = "MEMBER" },
                     new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
                 );
         }
