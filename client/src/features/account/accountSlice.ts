@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { sign } from "crypto";
-import { FieldValues } from "react-hook-form";
+import { createAsyncThunk, createSlice, isAnyOf,SerializedError} from "@reduxjs/toolkit";
+ import { FieldValues } from "react-hook-form";
+import { toast } from "react-toastify";
 import agent from "../../app/api/agent";
 import User from "../../app/models/user";
 import { router } from "../../app/router/Routes";
 
- 
+
 interface AccountState {
     user: User | null;
 }
@@ -19,7 +19,7 @@ export const signInUser = createAsyncThunk<User, FieldValues>(
     async (data, thunkAPI) => {
         try {
 
-            const user = await agent.Account.login(data); 
+            const user = await agent.Account.login(data);
             localStorage.setItem('user', JSON.stringify(user));
             return user;
 
@@ -31,8 +31,9 @@ export const signInUser = createAsyncThunk<User, FieldValues>(
 )
 
 export const fetchCurrentUser = createAsyncThunk<User>(
-    'account/signInUser',
+    'account/fetchCurrentUser',
     async (_, thunkAPI) => {
+        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)));
         try {
 
             const user = await agent.Account.currentUser();
@@ -43,6 +44,12 @@ export const fetchCurrentUser = createAsyncThunk<User>(
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data })
         }
+    },
+    {
+
+        condition: () => {
+            if (!localStorage.getItem('user')) return false;
+        }
     }
 )
 
@@ -50,17 +57,27 @@ export const accountSlice = createSlice({
     name: 'account',
     initialState,
     reducers: {
-        signOut:(state)=>{
-            state.user=null;
+        signOut: (state) => {
+            state.user = null;
             localStorage.removeItem('user');
             router.navigate('/');
+        },
+        setUser:(state,action)=>{
+            state.user=action.payload;
         }
     },
-    extraReducers: (builder => {
+    extraReducers:(builder => {
+        
+        builder.addCase(fetchCurrentUser.rejected,(state)=>{
+            state.user=null;
+            localStorage.removeItem('user');
+            toast.error("Oturumunuz zaman aşımına uğradı lütfen tekrar giriş yapın...")
+            router.navigate("/");
+        })
         builder.addMatcher(isAnyOf(signInUser.fulfilled, fetchCurrentUser.fulfilled), (state, action) => {
             state.user = action.payload;
         });
-        builder.addMatcher(isAnyOf(signInUser.rejected, fetchCurrentUser.rejected), (state, action) => {
+        builder.addMatcher(isAnyOf(signInUser.rejected ), (state, action) => {
             console.log(action.payload);
         });
     })
@@ -68,4 +85,4 @@ export const accountSlice = createSlice({
 })
 
 
-export const {signOut}=accountSlice.actions;
+export const { signOut,setUser } = accountSlice.actions;

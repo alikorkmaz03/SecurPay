@@ -16,12 +16,12 @@ namespace API.Controllers
            [HttpGet("bad-requests")]
         public ActionResult GetBadRequest()
         { 
-            return BadRequest(new ProblemDetails{Title="Hatalı İstek"});
+            return BadRequest(new ProblemDetails{Title="Hatalı İstek!..."});
         }
            [HttpGet("unauthorised")]
         public ActionResult GetUnAuthorised()
         { 
-            return Unauthorized(new ProblemDetails { Title="Hatalı Giriş"});
+            return Unauthorized(new ProblemDetails { Title="Giriş için yetkiniz bulunmamaktadır!..."});
         }
            [HttpGet("validation-error")]
         public ActionResult GetValidationError()

@@ -2,6 +2,9 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { PaginatedResponse } from "../models/pagination";
 import { router } from "../router/Routes";
+import { store } from "../store/configureStore";
+ 
+ 
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
 axios.defaults.baseURL = 'http://localhost:5000/api/';
@@ -9,6 +12,15 @@ axios.defaults.withCredentials = true;
 //Arrow Function ile kullanım
 const responseBody = (response: AxiosResponse) => response.data;
 //axios interceptors
+axios.interceptors.request.use(config => {
+  const token = store.getState().account.user?.token; // kullanıcının token'ını al
+  config.headers = config.headers || {}; // headers nesnesini kontrol et ve nesne olarak ekle
+  if (token) config.headers.Authorization = `Bearer ${token}`; // token headerına ekle
+  
+  return config;
+});
+
+
 axios.interceptors.response.use(async response => {
     await sleep();
     const pagination = response.headers['pagination'];

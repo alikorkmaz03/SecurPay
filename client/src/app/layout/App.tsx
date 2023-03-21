@@ -9,6 +9,7 @@ import LoadingComponent from "./LoadingComponent";
 import { getCookie } from "../util/util";
 import { useAppDispatch } from "../store/configureStore";
 import { setBasket } from "../../features/basket/basketSlice";
+import { fetchCurrentUser } from "../../features/account/accountSlice";
 
 function App() {
  /*Uygulama sepete ekleme işlemi olduğunda ilk buraya gelir bunu bunu kaldırıp redux ile yapacağız. Dispatch tanımlıcaz  */
@@ -19,6 +20,7 @@ function App() {
   useEffect(()=>{
 
     const buyerId=getCookie('buyerId');
+    dispatch(fetchCurrentUser());
     if(buyerId){
       agent.Basket.get()
       .then(basket=> dispatch(setBasket(basket)))
