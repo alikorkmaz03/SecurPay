@@ -26,7 +26,7 @@ const midLinks = [
 
 const rightLinks = [
   { title: "Giriş", path: "/login" },
-  { title: "KayıtOl", path: "/register" },
+  { title: "Üye Ol", path: "/register" },
 ];
 const navStyles = [
   {
@@ -84,7 +84,7 @@ export default function Header({ darkMode, handleThemeChangeColor }: Props) {
           {user ? (
             <SignedInMenu />
           ) : (
-            <List sx={{ display: "flex" }}>
+            <List sx={{ display: "flex" ,width:200,ml:5 }}>
               {rightLinks.map(({ title, path }) => (
                 <ListItem
                   component={NavLink}

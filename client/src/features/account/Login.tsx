@@ -83,7 +83,7 @@ export default function Login() {
                         {/*    </Link>*/}
                         {/*</Grid>*/}
                         <Grid item>
-                            <Link to='/register'>
+                            <Link to='/register' style={{ textDecoration: 'none' }}>
                                 {"Hesabınız yok mu? Üye olmak  Tıklayın "}
                             </Link>
                         </Grid>
