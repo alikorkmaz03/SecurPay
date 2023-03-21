@@ -73,6 +73,9 @@ export const basketSlice = createSlice({
     reducers: {
         setBasket: (state, action) => {
             state.basket = action.payload
+        },
+        clearBasket: (state) => {
+            state.basket = null;
         }
     },
     extraReducers: (builder => {
@@ -114,4 +117,4 @@ export const basketSlice = createSlice({
 
 
 /*actionları bu şekilde dışarı aktarıyoruz ve configureStore içerine ekliyoruz.*/
-export const { setBasket } = basketSlice.actions;
+export const { setBasket,clearBasket} = basketSlice.actions;

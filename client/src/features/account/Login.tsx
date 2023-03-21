@@ -26,9 +26,14 @@ export default function Login() {
     })
 
     async function sumbitForm(data: FieldValues) {
-        await dispatch(signInUser(data));
-        navigate('/catalog');
-      
+        try {
+            await dispatch(signInUser(data));
+            navigate('/catalog');
+
+        }
+        catch (error:any) {
+            console.log(error);
+        }      
     }
 
     return (
