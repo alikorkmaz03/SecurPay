@@ -10,18 +10,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    public class BasketController :BaseApiController
+    public class BasketController : BaseApiController
     {
         private readonly NtContext _context;
-        public  BasketController(NtContext context)
+        public BasketController(NtContext context)
         {
             _context = context;
 
         }
-        [HttpGet(Name ="GetBasket")]
+        [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
-            var basket = await RetrieveBasket();
+            var basket = await RetrieveBasket(GetBuyerId());
 
             if (basket == null) return NotFound();
 
@@ -31,60 +31,70 @@ namespace API.Controllers
 
 
         [HttpPost] //api/basket?productId=3&quantity=2
-         public async Task<ActionResult<BasketDto>> AddItemToBasket(int productId,int quantity)
+        public async Task<ActionResult<BasketDto>> AddItemToBasket(int productId, int quantity)
         {
             //Get basket || create basket
-            var basket =await RetrieveBasket();
+            var basket = await RetrieveBasket(GetBuyerId());
 
-             //Create Basket
-            if(basket==null) basket=CreateBasket();
+            //Create Basket
+            if (basket == null) basket = CreateBasket();
 
-             //Get Product
+            //Get Product
             var product = await _context.Products.FindAsync(productId);
-            if(product==null) return BadRequest(new ProblemDetails {Title="Ürün Bulunamadı..."});
+            if (product == null) return BadRequest(new ProblemDetails { Title = "Ürün Bulunamadı..." });
 
             //Add Item
-            basket.AddItem(product,quantity);
+            basket.AddItem(product, quantity);
 
-             //Save Changes
-            var result = await _context.SaveChangesAsync()> 0;
+            //Save Changes
+            var result = await _context.SaveChangesAsync() > 0;
 
-            if(result) return CreatedAtRoute("GetBasket",MapBasketToDto(basket));//201: Sunucu tarafından isteğin yerine getirildiği ve yeni bir kaynak oluşturulduğu anlamına gelir.
+            if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));//201: Sunucu tarafından isteğin yerine getirildiği ve yeni bir kaynak oluşturulduğu anlamına gelir.
 
-            return BadRequest(new ProblemDetails{Title="Ürün Sepete Eklenirken Sorun!..."});
+            return BadRequest(new ProblemDetails { Title = "Ürün Sepete Eklenirken Sorun!..." });
         }
 
         [HttpDelete]
-        public async Task<ActionResult> RemoveBasketItem(int productId,int quantity)
-        {   
-            //Get basket
-              var basket =await RetrieveBasket();
-            //Remove item or reduce quantity
-            if(basket==null) return NotFound();
-            //Save Changes
-            basket.RemoveItem(productId,quantity);
-            var result= await _context.SaveChangesAsync()>0;
-            if(result)  return Ok() ;
-
-            return BadRequest(new ProblemDetails{Title="Ürün Sepetten Çıkarılırken Sorun!..."});
-        }
-         private async Task<Basket> RetrieveBasket()
+        public async Task<ActionResult> RemoveBasketItem(int productId, int quantity)
         {
+            //Get basket
+            var basket = await RetrieveBasket(GetBuyerId());
+            //Remove item or reduce quantity
+            if (basket == null) return NotFound();
+            //Save Changes
+            basket.RemoveItem(productId, quantity);
+            var result = await _context.SaveChangesAsync() > 0;
+            if (result) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Ürün Sepetten Çıkarılırken Sorun!..." });
+        }
+        private async Task<Basket> RetrieveBasket(string buyerId)
+        {
+            if (string.IsNullOrEmpty(buyerId)) { Response.Cookies.Delete("buyerId"); return null; }
             return await _context.Baskets
               .Include(i => i.Items)
               .ThenInclude(p => p.Product)
-              .FirstOrDefaultAsync(x => x.BuyerId == Request.Cookies["buyerId"]);
+              .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
         }
-        
+
+        private string GetBuyerId()
+        {
+            return User.Identity.Name ?? Request.Cookies["buyerId"];
+        }
         private Basket CreateBasket()
         {
-           var buyerId =Guid.NewGuid().ToString();//Guid 'i uniqe olarak üretir.
-           var cookieOptions= new CookieOptions{IsEssential= true,Expires=DateTime.Now.AddDays(30)};
-           Response.Cookies.Append("buyerId",buyerId,cookieOptions);
-           var basket=new Basket{BuyerId=buyerId};
-           _context.Baskets.Add(basket);
+            var buyerId = User.Identity?.Name; //üyeyse adı 
+            if (string.IsNullOrEmpty(buyerId))
+            {
+                buyerId = Guid.NewGuid().ToString();//Guid 'i uniqe olarak üretir.*/
+                var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(30) };
+                Response.Cookies.Append("buyerId", buyerId, cookieOptions);
+            }
 
-           return basket;
+            var basket = new Basket { BuyerId = buyerId };
+            _context.Baskets.Add(basket);
+
+            return basket;
         }
         private BasketDto MapBasketToDto(Basket basket)
         {
