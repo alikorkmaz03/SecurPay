@@ -78,7 +78,7 @@ namespace API.Controllers
             {
                 OrderItems = items,
                 BuyerId = User.Identity.Name,
-                ShippingAddress = orderDto.ShippingAddress,// ???
+                ShippingAddress = orderDto.ShippingAddress, 
                 Subtotal = subTotal,
                 DeliveryFee = deliveryFee
             };
@@ -88,19 +88,19 @@ namespace API.Controllers
 
             if (orderDto.SaveAddress)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
-                user.Address = new UserAddress
+                var user = await _context.Users.Include(c=>c.Address).FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+                var address = new UserAddress
                 {
                     FullName = orderDto.ShippingAddress.FullName,
-                    Address1 = orderDto.ShippingAddress.FullName,
-                    Address2 = orderDto.ShippingAddress.FullName,
-                    City = orderDto.ShippingAddress.FullName,
-                    State = orderDto.ShippingAddress.FullName,
-                    Zip = orderDto.ShippingAddress.FullName,
-                    Country = orderDto.ShippingAddress.FullName
+                    Address1 = orderDto.ShippingAddress.Address1,
+                    Address2 = orderDto.ShippingAddress.Address2,
+                    City = orderDto.ShippingAddress.City,
+                    State = orderDto.ShippingAddress.State,
+                    Zip = orderDto.ShippingAddress.Zip,
+                    Country = orderDto.ShippingAddress.Country
                 };
+                user.Address = address;
 
-                _context.Update(user);
             }
 
             var result = await _context.SaveChangesAsync() > 0;

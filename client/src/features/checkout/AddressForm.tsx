@@ -5,7 +5,7 @@ import AppTextInput from '../../app/components/AppTextInput';
 import AppCheckbox from '../../app/components/AppCheckbox';
 
 export default function AddressForm() {
-    const { control } = useFormContext();
+    const { control,formState } = useFormContext();
     return (
         <>
             <Typography variant="h6" gutterBottom>
@@ -36,7 +36,11 @@ export default function AddressForm() {
                     <AppTextInput control={control} name='country' label='Ülke' />
                 </Grid>
                 <Grid item xs={12}>
-                    <AppCheckbox name='saveAddress' label='Varsayılan adres olarak Kaydet' control={control} />
+                    <AppCheckbox
+                        disabled={!formState.isDirty} //formda değişiklik yapıldığında aktif hale gelir
+                        name='saveAddress'
+                        label='Varsayılan adres olarak Kaydet'
+                        control={control} />
                 </Grid>
             </Grid>
 
