@@ -6,6 +6,10 @@ import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from "./checkoutValidation";
+import agent from "../../app/api/agent";
+import { useAppDispatch } from "../../app/store/configureStore";
+import { clearBasket } from "../basket/basketSlice";
+import { LoadingButton } from "@mui/lab";
 
 const steps = ['Gönderim adresi', 'Siparişinizi inceleyin', 'Ödeme ayrıntıları'];
 
@@ -23,18 +27,38 @@ function getStepContent(step: number) {
 }
 
 export default function CheckoutPage() {
+
+    const [activeStep, setActiveStep] = useState(0);
+    const [orderNumber, setOrderNumber] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const dispatch = useAppDispatch();
+
+
+    const currentValidationSchema = validationSchema[activeStep];
+
     const methods = useForm({
         mode: 'onTouched',
-        resolver:yupResolver(validationSchema)
+        resolver: yupResolver(currentValidationSchema)
     });
-    const [activeStep, setActiveStep] = useState(0);
+    const handleNext = async (data: FieldValues) => {
 
-    const handleNext = (data: FieldValues) => {
-
-        if (activeStep === 0) {
-            console.log(data);
+        const { nameOncard, saveAddress, ...shippingAddress } = data;
+        if (activeStep === steps.length - 1) {
+            setLoading(true);
+            try {
+                const orderNumber = await agent.Orders.create({ saveAddress, shippingAddress });
+                setOrderNumber(orderNumber);
+                setActiveStep(activeStep + 1)
+                dispatch(clearBasket());
+                setLoading(false);
+            } catch (error: any) {
+                console.log(error);
+                setLoading(false);
+            }
         }
-        setActiveStep(activeStep + 1);
+        else {
+            setActiveStep(activeStep + 1);
+        }
     };
 
     const handleBack = () => {
@@ -58,12 +82,12 @@ export default function CheckoutPage() {
                     {activeStep === steps.length ? (
                         <>
                             <Typography variant="h5" gutterBottom>
-                                Thank you for your order.
+                                Siparişiniz için teşekkür ederiz.
                             </Typography>
                             <Typography variant="subtitle1">
-                                Your order number is #2001539. We have emailed your order
-                                confirmation, and will send you an update when your order has
-                                shipped.
+                                Sipariş numaranız #{orderNumber}. Siparişinizi e-posta ile gönderdik
+                                onay ve siparişiniz tamamlandığında size bir güncelleme gönderecek
+                                sevk edildi.
                             </Typography>
                         </>
                     ) : (
@@ -72,17 +96,18 @@ export default function CheckoutPage() {
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 {activeStep !== 0 && (
                                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                        Back
+                                        Önce
                                     </Button>
                                 )}
-                                    <Button
-                                    disabled={!methods.formState.isValid }
+                                    <LoadingButton
+                                    loading={loading }
+                                    disabled={!methods.formState.isValid}
                                     variant="contained"
                                     type="submit"
                                     sx={{ mt: 3, ml: 1 }}
                                 >
-                                    {activeStep === steps.length - 1 ? 'Sipariş Ver' : 'İleri'}
-                                </Button>
+                                    {activeStep === steps.length - 1 ? 'Sipariş Ver' : 'Sonra'}
+                                </LoadingButton>
                             </Box>
                         </form>
                     )}
