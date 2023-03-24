@@ -4,55 +4,91 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useFormContext } from 'react-hook-form';
-import AppTextInput from '../../app/components/AppTextInput';
+import AppTextInput from '../../app/components/AppTextInput'; 
+import { StripeElementType } from '@stripe/stripe-js';
+import { CardCvcElement, CardExpiryElement, CardNumberElement } from '@stripe/react-stripe-js';
+import { StripeInput } from './StripeInput';
 
-export default function PaymentForm() {
+interface Props{
+    cardState :{ elementError: { [key in StripeElementType]?: string } };
+    onCardInputChange: (event:any) => void;
+}
+
+export default function PaymentForm({cardState,onCardInputChange}:Props) {
     const { control } = useFormContext();
 
+
     return (
+
         <>
             <Typography variant="h6" gutterBottom>
                 Ödeme Yöntemi
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                    <AppTextInput label='Ad Soyad' name='nameOnCard' control={control} />
+                    <AppTextInput label='Ad Soyad' name='cardholdername' control={control} />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField
-                        //required
+                        onChange={onCardInputChange}
+                        error={!!cardState.elementError.cardNumber}
+                        helperText={cardState.elementError.cardNumber}
                         id="cardNumber"
-                        label="Card number"
-                        fullWidth
+                        label="Kredi Kart Numarası"
+                        fullWidth                      
                         autoComplete="cc-number"
-                        variant="standard"
+                        variant="outlined"                        
+                        InputLabelProps={{shrink:true}}
+                        InputProps={{
+                            inputComponent:StripeInput,
+                            inputProps:{
+                                component:CardNumberElement
+                            }
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField
-                        //required
+                        onChange={onCardInputChange}
+                        error={!!cardState.elementError.cardExpiry}
+                        helperText={cardState.elementError.cardExpiry}                       
                         id="expDate"
-                        label="Expiry date"
+                        label="Son Kullanım Tarihi"
                         fullWidth
                         autoComplete="cc-exp"
-                        variant="standard"
+                        variant="outlined"                        
+                        InputLabelProps={{shrink:true}}
+                        InputProps={{
+                            inputComponent:StripeInput,
+                            inputProps:{
+                                component:CardExpiryElement
+                            }
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField
-                        //required
+                    <TextField  
+                        onChange={onCardInputChange}
+                        error={!!cardState.elementError.cardCvc}
+                        helperText={cardState.elementError.cardCvc}                          
                         id="cvv"
-                        label="CVV"
-                        helperText="Last three digits on signature strip"
+                        label="Cvc"                       
                         fullWidth
                         autoComplete="cc-csc"
-                        variant="standard"
+                        variant="outlined"                        
+                        InputLabelProps={{shrink:true}}
+                         InputProps={{
+                            inputComponent:StripeInput,
+                            inputProps:{
+                                component:CardCvcElement
+                            }
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <FormControlLabel
                         control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-                        label="Remember credit card details for next time"
+                        label="Kredi kartı bilgilerimi gelecek alışverişler için kaydet"
                     />
                 </Grid>
             </Grid>

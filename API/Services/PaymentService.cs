@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using API.Data.Migrations;
+using API.Entities;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Microsoft.Extensions.Configuration;
+using Stripe;
 
 namespace API.Services
 {
@@ -9,6 +13,37 @@ namespace API.Services
         public PaymentService(IConfiguration config)
         {
             _config = config;
+        }
+
+        public async Task<PaymentIntent> CreateOrUpdatePaymentIntent(Basket basket)
+        {
+            StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
+
+            var service = new PaymentIntentService();
+
+            var intent = new PaymentIntent();
+            var subtotal = basket.Items.Sum(item => item.Quantity * item.Product.Price);
+            var deliveryFee = subtotal >= 10000 ? 0 : 750;
+            if (string.IsNullOrEmpty(basket.PaymentIntentId))
+            {
+                var options = new PaymentIntentCreateOptions
+                {
+                    Amount = subtotal + deliveryFee,
+                    Currency = "usd",
+                    PaymentMethodTypes = new List<string> { "card" }
+                };
+                intent = await service.CreateAsync(options);
+               
+            }
+            else
+            {
+                var options = new PaymentIntentUpdateOptions
+                {
+                    Amount = subtotal + deliveryFee
+                };
+                await service.UpdateAsync(basket.PaymentIntentId, options);
+            }
+            return intent;
         }
     }
 }

@@ -67,6 +67,9 @@ const requests = {
     delete: (url: string) => axios.delete(url).then(responseBody),
 
 }
+const Payments={
+    createPaymenIntent : ()=>requests.post('payments',{})
+}
 
 const Catalog =
 {
@@ -107,7 +110,8 @@ const agent = {
     TestErrors,
     Basket,
     Account,
-    Orders
+    Orders,
+    Payments
 }
 
 export default agent;
