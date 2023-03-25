@@ -38,7 +38,7 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                                     </Box>
                                 </TableCell>
                                 <TableCell align="right">
-                                    {(item.price / 100).toFixed(2)} {` `}$
+                                    {(item.price / 100).toFixed(2)} {` `} TRY
                                 </TableCell>
                                 <TableCell align="center">
                                     {isBasket && (
@@ -67,7 +67,7 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                                     )}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {((item.price / 100) * item.quantity).toFixed(2)} {` `}$
+                                    {((item.price / 100) * item.quantity).toFixed(2)} {` `}TRY
                                 </TableCell>
                                 {isBasket && (
                                     <TableCell align="right">

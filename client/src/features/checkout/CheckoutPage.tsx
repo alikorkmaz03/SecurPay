@@ -25,7 +25,7 @@ export default function CheckoutPage() {
     const dispatch = useAppDispatch();
 
 
-    const [cardState, setCardState] = useState<{ elementError: { [key in StripeElementType]?: string } }>({ elementError: {} });  //any düzeltilecek stripe türkiyede kkullanılmıyor!!!
+    const [cardState, setCardState] = useState<{ elementError: { [key in StripeElementType]?: string } }>({ elementError: {} }); 
     const [cardComplete,setCardComplete]=useState<any>({cardNumber:false,cardExpiry:false,cardCvc:false});
     const [paymentMessage,setPaymentMessage] =useState('');
     const [paymentSucceeded,setPaymentSucceeded] =useState(false);

@@ -29,7 +29,7 @@ namespace API.Services
                 var options = new PaymentIntentCreateOptions
                 {
                     Amount = subtotal + deliveryFee,
-                    Currency = "usd",
+                    Currency = "try",
                     PaymentMethodTypes = new List<string> { "card" }
                 };
                 intent = await service.CreateAsync(options);
