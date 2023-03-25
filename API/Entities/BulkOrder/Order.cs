@@ -19,7 +19,7 @@ namespace API.Entities.BulkOrder
 
         public long DeliveryFee { get; set; }
 
-        public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public OrderStatus OrderStatus { get; set; } = OrderStatus.ÖdemeBekliyor;
 
         public string PaymentIntentId { get; set; }
         public long GetTotal()

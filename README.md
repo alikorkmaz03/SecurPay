@@ -16,6 +16,11 @@ NtStore, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client 
 - Entity Framework
 - Swagger
 - Stripe for Backend
+- Stripe Webhook 
+    Yardımcı komutlar:
+     stripe login
+     stripe listen
+     (stripe listen -f http://localhost:5000/api/payments/webhook -e charge.succeeded)
 
 ## Özellikler
 

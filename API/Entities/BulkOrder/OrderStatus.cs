@@ -2,10 +2,10 @@
 {
     public enum OrderStatus
     {
-        Pending,
+        ÖdemeBekliyor,
 
-        PaymentReceived,
+        ÖdemeAlındı,
 
-        PaymentFailed
+        ÖdemeReddedildi
     }
 }
