@@ -21,6 +21,12 @@ NtStore, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client 
      stripe login
      stripe listen
      (stripe listen -f http://localhost:5000/api/payments/webhook -e charge.succeeded)
+- .Net SecretKey İmplementasyonu 
+    Yardımcı Komutlar  Örnektir: 
+    dotnet user-secrets set "Movies:ServiceApiKey" "12345"  
+    dotnet user-secret list
+
+    https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows
 
 ## Özellikler
 
