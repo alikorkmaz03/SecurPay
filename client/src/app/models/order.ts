@@ -29,3 +29,12 @@ export interface OrderItem {
   price: number
   quantity: number
 }
+export interface CustomerPaymentsParams {
+  orderBy: string;
+  searchTerm?: string;   
+  buyerId: string[];
+  pageNumber: number;
+  pageSize: number;
+  startDate?:string;
+  endDate?:string;
+}

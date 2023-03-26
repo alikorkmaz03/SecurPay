@@ -11,5 +11,8 @@ namespace API.RequestHelpers
     public string SearchTerm { get; set; }
     public string Brands { get; set; }
     public string Types { get; set; }
+    public DateTime? startDate { get; set; }
+    public DateTime? endDate { get; set; }
+        
     }
 }

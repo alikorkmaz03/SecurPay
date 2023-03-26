@@ -6,14 +6,34 @@ import { Order } from "../../app/models/order";
 import { currencyFormat } from "../../app/util/util";
 import OrderDetailed from "./OrderDetailed";
 
- 
-
-
 export default function Orders() {
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState<Order[] | null>(null);
     const [selectedOrderNumber, setSelectedOrderNumber] = useState(0);
+  
+const OrderStatus = ({ order }: any) => {
+    let statusStyle;
 
+    switch (order.orderStatus) {
+        case 'ÖdemeBekliyor':
+            statusStyle = { color: 'blue' };
+            break;
+        case 'ÖdemeAlındı':
+            statusStyle = { color: 'green' };
+            break;
+        case 'ÖdemeReddedildi':
+            statusStyle = { color: 'red' };
+            break;
+        default:
+            statusStyle = {};
+            break;
+    }
+
+    return (
+        <TableCell align="right" style={statusStyle}>{order.orderStatus}</TableCell>
+    );
+};
+    
     useEffect(() => {
         agent.Orders.list()
             .then(orders => setOrders(orders))
@@ -56,7 +76,7 @@ export default function Orders() {
                                 </TableCell>
                                 <TableCell align="right">{currencyFormat(order.total)}</TableCell>
                                 <TableCell align="right">{order.orderDate.split('T')[0]}</TableCell>
-                                <TableCell align="right">{order.orderStatus}</TableCell>
+                                <TableCell align="right"><OrderStatus order={order} /></TableCell>
                                 <TableCell align="right"><Button onClick={() => setSelectedOrderNumber(order.id)}>İncele</Button></TableCell>
                             </TableRow>
                         ))}
@@ -66,4 +86,4 @@ export default function Orders() {
         </>
     )
 }
-
+ 

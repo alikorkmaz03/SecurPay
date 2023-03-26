@@ -22,6 +22,7 @@ const midLinks = [
   { title: "Ürünler", path: "/catalog" },
   { title: "Hakkımızda", path: "/about" },
   { title: "İletişim", path: "/contact" },
+  { title: "Müşteri Ödemeleri", path: "/customerpayments" },
 ];
 
 const rightLinks = [

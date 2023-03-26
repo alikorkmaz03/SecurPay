@@ -98,6 +98,11 @@ const Account = {
     currentUser: () => requests.get('account/currentUser'),
     fetchAddres: ()=>requests.get('account/savedAddress')
 }
+const CustomerPayments={
+    list: (params: URLSearchParams) => requests.get('payments/customerpayments', params),    
+    fetchFilters: () => requests.get('payments/filters'),
+  
+}
 
 const Orders = {
     list: () => requests.get('orders'),
@@ -111,7 +116,8 @@ const agent = {
     Basket,
     Account,
     Orders,
-    Payments
+    Payments,
+    CustomerPayments
 }
 
 export default agent;

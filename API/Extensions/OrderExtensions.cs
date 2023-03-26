@@ -1,6 +1,7 @@
 ﻿using API.DTO;
 using API.Entities.BulkOrder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Runtime.CompilerServices;
 
 namespace API.Extensions
@@ -34,5 +35,26 @@ namespace API.Extensions
             //"AsNoTracking" özelliği, verilerin sadece okunacağı durumlarda kullanılmalıdır. Çünkü bu özellik, bir varlık nesnesinin değişikliklerinin takip edilememesi anlamına gelir.
             //Bu nedenle, bir varlık nesnesinin güncellenmesi gerekiyorsa, "AsNoTracking" özelliği kullanılmamalıdır. Aksi takdirde, varlık nesnesi değiştirilemeyeceği için hatalar meydana gelebilir.
         }
+                
+        public static IQueryable<OrderDto> Search(this IQueryable<OrderDto> query, string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm)) return query;
+
+            var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
+
+            return query.Where(p => p.BuyerId.ToLower().Contains(lowerCaseSearchTerm)); //siparişler içinde backend tarafında dinamik arama yapmamızı sağlar bunu yazarken boşlukları sildik ve tolower ile stringleri küçük kabul ettik
+        }
+
+        public static IQueryable<OrderDto> RangeDate(this IQueryable<OrderDto> query, DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                return query.Where(p => p.OrderDate.Date >= startDate.Value.Date && p.OrderDate.Date <= endDate.Value.Date);
+            }
+
+            return query;
+        }
+         
+
     }
 }

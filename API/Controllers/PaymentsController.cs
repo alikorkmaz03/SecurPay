@@ -1,7 +1,9 @@
 ﻿using API.Data;
+using API.DTO;
 using API.DTOs;
 using API.Entities.BulkOrder;
 using API.Extensions;
+using API.RequestHelpers;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +65,56 @@ namespace API.Controllers
 
             return new EmptyResult(); // ödeme başarılı olduktan sonra stripe a boş sonuç gönderiyoruz çünkü tekrar tekrar cevap dönüyor.
         }
+        
+        
+        [HttpGet("customerpayments")] //****QUERY İLE Sipariş ödemelerini listeler****
+        public async Task<ActionResult<PagedList<OrderDto>>> GetFiltersCustomerPayments([FromQuery] ProductParams customerPaymemtsParams) ///eğer parametre alarak sorgu sonucunda ürün listelenecekse [FromQuery] ile bunu controllera bildirmeliyiz.
+        {
+            DateTime thisYearStart = new DateTime(DateTime.UtcNow.Year, 1, 1);
+            var query = _context.Orders
+                .ProjectOrderToOrderDto()
+                .Search(customerPaymemtsParams.SearchTerm)
+                .RangeDate(customerPaymemtsParams.startDate, customerPaymemtsParams.endDate)
+                .Where(c => c.OrderDate >= thisYearStart)
+                .AsQueryable();
+
+            var customerPayments = await PagedList<OrderDto>.ToPagedList(query, customerPaymemtsParams.PageNumber, customerPaymemtsParams.PageSize);
+
+            Response.AddPaginationHeader(customerPayments.MetaData);
+            return customerPayments;
+        }
+
+
+        //[HttpGet("filters")]
+        //public async Task<IActionResult> GetFilters()
+        //{
+        //    var buyerId = await _context.Orders.Select(p => p.BuyerId).Distinct().ToListAsync();
+           
+
+        //    return Ok(new { buyerId});
+
+        //}
+
+        //[HttpGet("filterdate")]
+        //public async Task<ActionResult<List<OrderDto>>> GetPaymentsByDateRange(DateTime? startDate, DateTime? endDate)
+        //{
+
+        //    if (startDate.HasValue && endDate.HasValue)
+        //    {
+        //        var filterPayment= _context.Orders.ProjectOrderToOrderDto()
+        //                                .Where(c => c.OrderDate.Date >= startDate.Value.Date && c.OrderDate.Date <= endDate.Value.Date && c.BuyerId == User.Identity.Name)
+        //                                .ToListAsync();
+
+        //        return  await filterPayment;
+
+        //    }
+
+        //    return await _context.Orders
+        //        .ProjectOrderToOrderDto()
+        //        .Where(x => x.BuyerId == User.Identity.Name)
+        //        .ToListAsync();
+
+        //}
 
     }
 }

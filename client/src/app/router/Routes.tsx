@@ -14,6 +14,7 @@ import CheckoutPage from "../../features/checkout/CheckoutPage";
 import RequireAuth from "./RequireAuth";
 import Orders from "../../features/orders/Orders";
 import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
+import CustomerPayments from "../../features/customerpayments/CustomerPayments";
  
 
 export const router = createBrowserRouter([
@@ -24,7 +25,8 @@ export const router = createBrowserRouter([
             //checkout sayfasının url'ni korumak için yapıldı
             { element:<RequireAuth/>, children: [
                 { path: 'checkout', element: <CheckoutWrapper /> },
-                { path: 'orders', element: <Orders /> }
+                { path: 'orders', element: <Orders/> },
+                { path: 'customerpayments', element: <CustomerPayments/> }
             ]},
             { path: '', element: <HomePage /> },
             { path: 'catalog', element: <Catalog /> },
