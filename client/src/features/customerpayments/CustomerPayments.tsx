@@ -55,7 +55,7 @@ export default function CustomerPayments() {
       </TableCell>
     );
   };
-
+  
   useEffect(() => {
     agent.Orders.list()
       .then(() => dispatch(fetchCustomerPaymentsAsync()))
@@ -66,12 +66,7 @@ export default function CustomerPayments() {
   useEffect(() => {
     if (!customerPaymentsLoaded) dispatch(fetchCustomerPaymentsAsync());
   }, [customerPaymentsLoaded, dispatch]);
-
-
-//   useEffect(() => {
-//     if (!filtersLoaded) dispatch(fetchFilters());
-//   }, [filtersLoaded, dispatch]); //[] filtreleme için API yi iki kere çağırıyordu ayrı ayrı yazdım.
-
+ 
   if (loading)
     return <LoadingComponent message="Ödeme Listesi Yükleniyor..." />;
 

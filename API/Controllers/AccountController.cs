@@ -1,4 +1,5 @@
-﻿using API.Data;
+﻿using API.Contratcts;
+using API.Data;
 using API.DTO;
 using API.Entities;
 using API.Extensions;
@@ -15,12 +16,16 @@ namespace API.Controllers
     public class AccountController :BaseApiController
     {
         private readonly UserManager<User> _userManager;
+       
+        private ILoggerManager _logger;
         private readonly TokenService _tokenService;
         private readonly NtContext _context;
+            
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService, NtContext context) 
+        public AccountController(UserManager<User> userManager,ILoggerManager logger , TokenService tokenService, NtContext context) 
         {
             _userManager = userManager;
+            _logger = logger;
             _tokenService = tokenService;
             _context = context;
         }
@@ -28,6 +33,8 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto) 
         {
+
+            _logger.LogInfo("Account controller Login Servisi Gönderime Başladı...");
             // Kullanıcının adını kullanarak kullanıcıyı veritabanından arar
             var user = await _userManager.FindByNameAsync(loginDto.Username);
 
@@ -45,13 +52,15 @@ namespace API.Controllers
                 anonBasket.BuyerId = user.UserName;
                 await _context.SaveChangesAsync();
             }
+            _logger.LogInfo("Kullanıcının e - posta adresi, JWT token ve sepetinin DTO'su olan UserDto nesnesi döndürüldü.....");
             // Kullanıcının e - posta adresi, JWT token ve sepetinin DTO'su olan UserDto nesnesi döndürülür.
             return new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 Basket = anonBasket != null ? anonBasket.MapBasketDto() : userBasket?.MapBasketDto()
-            };
+         
+            };         
         }
 
         [HttpPost("register")]
@@ -68,7 +77,7 @@ namespace API.Controllers
                 {
                     ModelState.AddModelError(error.Code, error.Description);
                 }
-
+                
                 return ValidationProblem();
             }
 

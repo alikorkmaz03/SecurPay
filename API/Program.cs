@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
+using API.Contratcts;
 using API.Data;
 using API.Entities;
+using API.Extensions;
 using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,14 +13,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 //Add Services the container
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+//Cors Yapılandırması İçin
+builder.Services.ConfigureCors();
+
+//NLog Manager için
+builder.Services.ConfigureLoggerManager();
+
+
+
 
 //*************************************************************************
 ///JWT Configuration
@@ -114,12 +127,6 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 app.UseRouting();
-app.UseCors(opt =>
-{
-    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
-    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5000");
-
-});
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

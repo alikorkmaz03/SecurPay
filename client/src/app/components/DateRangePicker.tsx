@@ -1,22 +1,14 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Button, Grid } from '@mui/material';
 
-import {
-  fetchRangePaymentsAsync,
-  setStartDate,
-  setEndDate,
-  setPageNumber
-} from '../../features/customerpayments/customerPaymentsSlice';
+import {setStartDate,setEndDate,setPageNumber, fetchCustomerPaymentsAsync} from '../../features/customerpayments/customerPaymentsSlice';
 import { useAppDispatch, useAppSelector } from '../store/configureStore';
 
 export default function DatePickerValue() {
-  const { customerPaymentsParams } = useAppSelector(
-    (state) => state.customerpayments
-  );
+  const { customerPaymentsParams } = useAppSelector((state) => state.customerpayments);
   const dispatch = useAppDispatch();
 
   const handleStartDateChange = async (date: Dayjs | null) => {
@@ -33,14 +25,14 @@ export default function DatePickerValue() {
 
   const applyFilter = () => {
     dispatch(setPageNumber({ pageNumber: 1 }));
-    dispatch(fetchRangePaymentsAsync());
+    dispatch(fetchCustomerPaymentsAsync());
   };
 
   const cleanFilter = () => {
     dispatch(setStartDate(''));
     dispatch(setEndDate(''));
     dispatch(setPageNumber({ pageNumber: 1 }));
-    dispatch(fetchRangePaymentsAsync());
+    dispatch(fetchCustomerPaymentsAsync());
   };
 
   return (
@@ -49,11 +41,7 @@ export default function DatePickerValue() {
         <Grid item xs={12} sm={6}>
           <DatePicker
             label="Başlangıç Tarihi"
-            value={
-              customerPaymentsParams.startDate
-                ? dayjs(customerPaymentsParams.startDate)
-                : null
-            }
+            value={customerPaymentsParams.startDate ? dayjs(customerPaymentsParams.startDate) : null }
             onChange={handleStartDateChange}
             format="YYYY-MM-DD"
              
@@ -62,14 +50,9 @@ export default function DatePickerValue() {
         <Grid item xs={12} sm={6}>
           <DatePicker
             label="Bitiş Tarihi"
-            value={
-              customerPaymentsParams.endDate
-                ? dayjs(customerPaymentsParams.endDate)
-                : null
-            }
+            value={customerPaymentsParams.endDate ? dayjs(customerPaymentsParams.endDate) : null }
             onChange={handleEndDateChange}
-            format="YYYY-MM-DD"
-             
+            format="YYYY-MM-DD"             
           />
         </Grid>
         <Grid item xs={12}>

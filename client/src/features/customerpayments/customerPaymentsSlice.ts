@@ -28,7 +28,7 @@ function getAxiosParams(customerPaymentsParams: CustomerPaymentsParams) {
       params.append('endDate',    customerPaymentsParams.endDate);
     }
     if (customerPaymentsParams.searchTerm) params.append('searchTerm', customerPaymentsParams.searchTerm);
-    console.log('URLSearchParams:', params.toString()); // Bu satırı ekleyin
+    console.log('URLSearchParams:', params.toString()); 
     return params;
 }
 
@@ -46,38 +46,6 @@ export const fetchCustomerPaymentsAsync = createAsyncThunk<Order[], void, {state
         }
     }
 )
-
-
-// export const fetchFilters = createAsyncThunk(
-//     'payments/filters',
-//     async (_, thunkAPI) => {
-//         try {
-//             return agent.CustomerPayments.fetchFilters();
-
-//         } catch (error: any) {
-//             return thunkAPI.rejectWithValue({ error: error.data });
-//         }
-//     }
-// )
-
-export const fetchRangePaymentsAsync = createAsyncThunk<Order[], void, { state: RootState }>(
-    'customerpayments/fetchRangePaymentsAsync',
-    async (_, thunkAPI) => {
-      const { customerPaymentsParams } = thunkAPI.getState().customerpayments;
-      const params = getAxiosParams(customerPaymentsParams);
-      try {
-        const response = await agent.CustomerPayments.list(params);
-        console.log('Response:', response);
-        thunkAPI.dispatch(setMetaData(response.metaData));        
-       
-        return response.items;
-      } catch (error: any) {
-        console.log("Error in fetchRangePaymentsAsync:", error);
-        return thunkAPI.rejectWithValue({ error: error.data });
-      }
-    }
-)
-
 
 function initParams() {
      
@@ -117,7 +85,6 @@ export const customerPaymentsSlice = createSlice({
         },
         resetCustomerPaymentsParams: (state) => {
             state.customerPaymentsParams = initParams();
-
         },
         setStartDate: (state, action ) => {
             state.customerPaymentsParams.startDate = action.payload;
@@ -126,8 +93,7 @@ export const customerPaymentsSlice = createSlice({
           setEndDate: (state, action ) => {
             state.customerPaymentsParams.endDate = action.payload;
             state.customerPaymentsParams = { ...state.customerPaymentsParams, ...action.payload};
-        }
-      
+        }     
           
     },
     extraReducers: (builder => {
@@ -141,34 +107,6 @@ export const customerPaymentsSlice = createSlice({
             state.customerPaymentsLoaded = true;
         });
         builder.addCase(fetchCustomerPaymentsAsync.rejected, (state, action) => {
-            console.log(action.payload);
-            state.status = 'idle';
-        });
-
-        //Fetch Filters
-        // builder.addCase(fetchFilters.pending,(state,action)=>{
-        //     state.status = 'pendingFetchFilters'; 
-        // });
-        // builder.addCase(fetchFilters.fulfilled,(state,action)=> {             
-        //     state.buyerId = action.payload.types;
-        //     state.filtersLoaded = true;
-        //     state.status = 'idle';
-        // });
-        // builder.addCase(fetchFilters.rejected, (state, action) => {
-        //     state.status = 'idle';
-        //     console.log(action.payload);
-        // });
-
-         // fetchRangePaymentsAsync Page
-         builder.addCase(fetchRangePaymentsAsync.pending, (state => {
-            state.status = 'pendingFetchPaymentRange';
-        }));
-        builder.addCase(fetchRangePaymentsAsync.fulfilled, (state, action) => {
-            customerPaymentsAdapter.setAll(state, action.payload);
-            state.status = 'idle';
-            state.customerPaymentsLoaded = true;
-        });
-        builder.addCase(fetchRangePaymentsAsync.rejected, (state, action) => {
             console.log(action.payload);
             state.status = 'idle';
         });
