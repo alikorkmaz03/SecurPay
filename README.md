@@ -30,12 +30,14 @@ NtStore, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client 
 
 ## Özellikler
 
-- Ürün kategorileri ve alt kategorileri oluşturma ve yönetme
-- Ürün ekleme, güncelleme ve silme işlemleri
-- Müşteri hesapları oluşturma, düzenleme ve silme işlemleri
+- Ürün ekleme işlemleri
+- Müşteri hesapları oluşturma işlemleri
 - Sepet oluşturma ve düzenleme işlemleri
-- Sipariş oluşturma, düzenleme ve iptal işlemleri
+- Sipariş oluşturma, düzenleme işlemleri
 - Ödeme işlemleri (Stripe ödeme ağ geçidi kullanılarak)
+- Ödemeleri Listeleme İşlemleri
+- Ödemeleri belirtilen tarih aralığına göre filtreleme işlemi
+- Ödemeli müşteri adı ile dinamik arama işlemleri
 
 ## Yükleme ve Kullanım
 
