@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# SecurePay
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Securepay, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client tarafı React18 ve Entity Framework Core kullanılarak geliştirilmiştir.
 
-## Available Scripts
+## Kullanılan Teknolojiler 
+- Redux: React uygulamalarında kullanılan bir durum yöneticisidir.
+- React Router: Sayfa yönlendirmesi yapmak için kullanılan bir React kütüphanesidir.
+- Axios: HTTP istekleri göndermek için kullanılan bir JavaScript kütüphanesidir.
+- Material-UI: Material Design prensiplerine uygun tasarım bileşenleri sunan bir React kütüphanesidir.
+- React Hook Form
+- [Material-UI](https://mui.com/)
+- [Stripe](https://stripe.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Yup](https://github.com/jquense/yup)
+- .Net6 Web API
+- Entity Framework
+- Swagger
+- Stripe for Backend
+- Stripe Webhook 
+    Yardımcı komutlar:
+     stripe login
+     stripe listen
+     (stripe listen -f http://localhost:5000/api/payments/webhook -e charge.succeeded)
+- .Net SecretKey İmplementasyonu 
+    Yardımcı Komutlar  Örnektir: 
+    dotnet user-secrets set "Movies:ServiceApiKey" "12345"  
+    dotnet user-secret list
 
-In the project directory, you can run:
+    https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows
 
-### `npm start`
+## Özellikler
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Ürün ekleme işlemleri
+- Müşteri hesapları oluşturma işlemleri
+- Sepet oluşturma ve düzenleme işlemleri
+- Sipariş oluşturma, düzenleme işlemleri
+- Ödeme işlemleri (Stripe ödeme ağ geçidi kullanılarak)
+- Ödemeleri Listeleme İşlemleri
+- Ödemeleri belirtilen tarih aralığına göre filtreleme işlemi
+- Ödemeli müşteri adı ile dinamik arama işlemleri
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Yükleme ve Kullanım
 
-### `npm test`
+1. Bu uygulamayı indirin veya kopyalayın.
+2. Visual Studio'da `Securepay.sln` dosyasını açın.
+3. `appsettings.json` dosyasında gerekli ayarları yapılandırın. Özellikle, Stripe ödeme ağ geçidi anahtarınızı burada belirtmeniz gerekmektedir.
+4. `Package Manager Console` penceresinde `Update-Database` komutunu çalıştırarak veritabanınızı güncelleyin.
+5. Uygulamayı başlatın.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Katkıda Bulunma
 
-### `npm run build`
+- Herhangi bir hata veya sorunla karşılaşırsanız, lütfen bir [issue](https://github.com/alikorkmaz03/Securepay/issues) oluşturun.
+- Katkıda bulunmak için bir [pull request](https://github.com/alikorkmaz03/Securepay/pulls) gönderin.
+- Herhangi bir sorunuz veya öneriniz varsa, lütfen bir [email](mailto:alikorkmaz03@gmail.com) gönderin.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Lisans
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Bu proje MIT lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasını inceleyebilirsiniz.
