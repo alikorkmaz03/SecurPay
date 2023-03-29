@@ -14,10 +14,10 @@ namespace API.Controllers
 {
     public class PaymentsController : BaseApiController
     {
-        private readonly NtContext _context;
+        private readonly SecurePayContext _context;
         private readonly IConfiguration _config;
         private readonly PaymentService _paymentService;
-        public PaymentsController(PaymentService paymentService, NtContext context,IConfiguration config)
+        public PaymentsController(PaymentService paymentService, SecurePayContext context,IConfiguration config)
         {
             _context = context;
             _config = config;
@@ -77,6 +77,9 @@ namespace API.Controllers
                 .RangeDate(customerPaymemtsParams.startDate, customerPaymemtsParams.endDate)
                 .Where(c => c.OrderDate >= thisYearStart)
                 .AsQueryable();
+
+            //AsQueryable" metodunun kullanılması, bir veri kaynağından sorgu sonucunun dönüş tipinin "IQueryable" olarak belirlenmesini sağlar.
+            //Bu sayede, sorgu sonucuüzerinde daha fazla sorgu işlemi yapılabilir ve sorgunun tamamlanması, sonucun veritabanından alınması gibi işlemler geciktirilebilir.
 
             var customerPayments = await PagedList<OrderDto>.ToPagedList(query, customerPaymemtsParams.PageNumber, customerPaymemtsParams.PageSize);
 

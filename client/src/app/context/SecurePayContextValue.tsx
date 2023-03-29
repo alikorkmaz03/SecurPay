@@ -2,17 +2,17 @@ import { PropsWithChildren, useContext, useState } from "react";
 import { createContext } from "react";
 import { Basket } from "../models/basket";
 
-interface NtStoreContextValue
+interface SecurePayStoreContextValue
 {
     basket:Basket| null;
     setBasket: (basket:Basket)=>void;
     removeItem : (productId:number ,quantity:number)=>void;      
 }
-export const NtStoreContext = createContext<NtStoreContextValue | undefined>(undefined);//default değer vermek için undifened yazdık
+export const SecurePayContext = createContext<SecurePayStoreContextValue | undefined>(undefined);//default değer vermek için undifened yazdık
 
-export function useNtStoreContext()
+export function useSecurePayContext()
 {
-    const context = useContext(NtStoreContext);
+    const context = useContext(SecurePayContext);
 
     if(context===undefined){
         throw Error("Hata- sağlayıcının içinde görünmüyorsunuz")
@@ -20,7 +20,7 @@ export function useNtStoreContext()
     return context;
 }
 
-export function NtStoreProvider({children}:PropsWithChildren<any>)
+export function SecurePayProvider({children}:PropsWithChildren<any>)
 {
     const [basket,setBasket]=useState<Basket |null>(null);
 
@@ -39,6 +39,6 @@ export function NtStoreProvider({children}:PropsWithChildren<any>)
         }
     }
     return(
-        <NtStoreContext.Provider value={{basket,setBasket,removeItem}} >{children}</NtStoreContext.Provider>
+        <SecurePayContext.Provider value={{ basket, setBasket, removeItem }} >{children}</SecurePayContext.Provider>
     )
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
-    [DbContext(typeof(NtContext))]
+    [DbContext(typeof(SecurePayContext))]
     [Migration("20230323082030_PaymentIntentAdded")]
     partial class PaymentIntentAdded
     {

@@ -19,10 +19,10 @@ namespace API.Controllers
        
         private ILoggerManager _logger;
         private readonly TokenService _tokenService;
-        private readonly NtContext _context;
+        private readonly SecurePayContext _context;
             
 
-        public AccountController(UserManager<User> userManager,ILoggerManager logger , TokenService tokenService, NtContext context) 
+        public AccountController(UserManager<User> userManager,ILoggerManager logger , TokenService tokenService, SecurePayContext context) 
         {
             _userManager = userManager;
             _logger = logger;
@@ -66,9 +66,10 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
+            // "registerDto" parametresi üzerinden gelen kullanıcı bilgileriyle yeni bir "User" nesnesi oluşturuluyor.
             var user = new User { UserName = registerDto.Username, Email = registerDto.Email };
 
-            //burada kullanıcı ve şifre kontrolü yapıyoruz
+            // "_userManager.CreateAsync" metodu ile yeni bir kullanıcı ve şifre oluşturuluyor.
             var result =  await _userManager.CreateAsync(user,registerDto.Password);
 
             if (!result.Succeeded) 
@@ -80,7 +81,7 @@ namespace API.Controllers
                 
                 return ValidationProblem();
             }
-
+            // Kullanıcı başarıyla oluşturulduysa, "Member" rolüne atanıyor.
             await _userManager.AddToRoleAsync(user, "Member");
 
             return StatusCode(201);

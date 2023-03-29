@@ -17,9 +17,9 @@ namespace API.Controllers
     public class ProductsController : BaseApiController
     {
 
-        private readonly NtContext _context;
+        private readonly SecurePayContext _context;
 
-        public ProductsController(NtContext context)
+        public ProductsController(SecurePayContext context)
         {
             _context = context;
 

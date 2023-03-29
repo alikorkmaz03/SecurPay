@@ -25,7 +25,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 //Cors Yapılandırması İçin
-builder.Services.ConfigureCors();
+//builder.Services.ConfigureCors();
 
 //NLog Manager için
 builder.Services.ConfigureLoggerManager();
@@ -63,17 +63,18 @@ builder.Services.AddSwaggerGen(c =>
             jwtSecurityScheme,Array.Empty<string>()
         }
     });
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "NtStoreAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SecurePayAPI", Version = "v1" });
 
 });
 //*************************************************************************
 
 
-builder.Services.AddDbContext<NtContext>(opt =>
+builder.Services.AddDbContext<SecurePayContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("NtDefaultConnetion"));
+    opt.UseSqlite(builder.Configuration.GetConnectionString("SecurePayDefaultConnection"));
 });
 builder.Services.AddCors();//Cors Origin ayarı için eklendi.
+
 //Rol ve Login için eklendi
 builder.Services.AddIdentityCore<User>(opt =>
 {
@@ -81,7 +82,7 @@ builder.Services.AddIdentityCore<User>(opt =>
     opt.User.RequireUniqueEmail = true;
 })
     .AddRoles<Role>()
-    .AddEntityFrameworkStores<NtContext>();
+    .AddEntityFrameworkStores<SecurePayContext>();
 
 
 
@@ -125,25 +126,35 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5000");
 
+});
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-
+// İçerisinde bağımlılık enjeksiyonu için kullanılacak nesneleri barındıran bir kapsam oluşturun.
 using var scope = app.Services.CreateScope();
-var context = scope.ServiceProvider.GetRequiredService<NtContext>();
+
+// Kapsamdan gerekli hizmetleri alarak veritabanı bağlamı, kullanıcı yöneticisi ve günlükleyici nesnelerini oluşturun.
+var context = scope.ServiceProvider.GetRequiredService<SecurePayContext>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 try
 {
+    // Veritabanındaki mevcut migrasyonları uygulayarak, veritabanının güncel olmasını sağlar
     await context.Database.MigrateAsync();
+
+    // Veritabanını başlangıç verileriyle doldurur (ör. örnek kullanıcılar, roller vb.).
     await DbInitializer.Initialize(context, userManager);
 }
 catch (Exception ex)
 {
-
+    
     logger.LogError(ex, "Migrating duration get error!...");
 }
 

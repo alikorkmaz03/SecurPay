@@ -12,6 +12,7 @@ interface CatalogState {
     types: string[];
     productParams: ProductParams;
     metaData: MetaData | null;
+     
 
 }
 
@@ -24,14 +25,22 @@ function getAxiosParams(productParams: ProductParams) {
     params.append('orderBy',    productParams.orderBy);
     if (productParams.searchTerm) params.append('searchTerm', productParams.searchTerm);
     if (productParams.brands.length>0) params.append('brands', productParams.brands.toString());
-    if (productParams.types.length >0)  params.append('types', productParams.types.toString());
+    if (productParams.types.length > 0) params.append('types', productParams.types.toString());
+    if (productParams.startDate && productParams.endDate) {
+        params.append('startDate', productParams.startDate);
+        params.append('endDate', productParams.endDate);   
+    }
+    console.log('URLSearchParams:', params.toString()); 
     return params;
 }
 
 export const fetchProductsAsync = createAsyncThunk<Product[], void, {state:RootState}>(
     'catalog/fetchProductsAsync',
     async (_, thunkAPI) => {
+        console.log("URl Search ");
         const params = getAxiosParams(thunkAPI.getState().catalog.productParams);
+
+        console.log(params);
         try {
                 
             const response = await agent.Catalog.list(params);
@@ -69,12 +78,13 @@ export const fetchFilters = createAsyncThunk(
 
 function initParams() {
     return {
-        pageNumber: 1,
+        pageNumber:1,
         pageSize: 6,
         orderBy: 'name',
         brands: [],
-        types: []
-        
+        types: [],       
+        startDate: '',
+        endDate: ''          
     }
 }
 
@@ -85,7 +95,7 @@ export const catalogSlice = createSlice({
         filtersLoaded: false,
         status: 'idle',
         brands: [],
-        types: [],
+        types: [],        
         productParams: initParams(),
         metaData:null
     }),

@@ -59,7 +59,7 @@ export default function Header({ darkMode, handleThemeChangeColor }: Props) {
       >
         <Box display="flex" alignItems="center">
           <Typography variant="h6" component={NavLink} to="/" sx={navStyles}>
-            NT - STORE
+            SECUREPAY
           </Typography>
           <Switch checked={darkMode} onChange={handleThemeChangeColor} />
         </Box>

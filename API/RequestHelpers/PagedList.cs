@@ -24,6 +24,9 @@ namespace API.RequestHelpers
         {
             // Sayfalamanın başlayacağı öğeye atlayın ve belirtilen sayıda öğe alın
             var count = await query.CountAsync();
+            //"Skip((pageNumber-1)*pageSize)" ifadesi, sorgu sonucundan belirtilen sayfa numarasındaki verileri atlayarak sayfalamayı yapar.
+            //"pageNumber" ifadesi, kaçıncı sayfanın getirileceğini belirler ve "pageSize" ifadesi ise her sayfadaki öğe sayısını belirler.
+            //Bu nedenle, sorgu sonucundan kaç öğenin atlanacağını belirleyen bir ifadedir.
             var items = await query.Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();
             return new PagedList<T>(items,count,pageNumber,pageSize);
             

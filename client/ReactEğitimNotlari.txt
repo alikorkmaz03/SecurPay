@@ -254,7 +254,7 @@ github hesabını aç ve birtane branch oluştur.
 
 Aşağıdaki kodlar terminal kodu sana yardımcı olucaktır.
 
-echo "# NtStore" >> README.md
+echo "# SecurePay" >> README.md
 git init
 git add README.md
 git commit -m "first commit"

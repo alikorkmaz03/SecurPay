@@ -17,4 +17,6 @@ export interface ProductParams {
     brands: string[];
     pageNumber: number;
     pageSize: number;
+    startDate?: string;
+    endDate?: string;   
 }

@@ -10,8 +10,7 @@ import { fetchBasketAsync, setBasket } from "../../features/basket/basketSlice";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 
 function App() {
-    /*Uygulama sepete ekleme işlemi olduğunda ilk buraya gelir bunu bunu kaldırıp redux ile yapacağız. Dispatch tanımlıcaz  */
-    // const {setBasket} =useNtStoreContext();
+    /*Uygulama sepete ekleme işlemi olduğunda ilk buraya gelir bunu bunu kaldırıp redux ile yapacağız. Dispatch tanımlıcaz  */    
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
 

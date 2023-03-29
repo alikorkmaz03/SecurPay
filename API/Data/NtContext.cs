@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class NtContext : IdentityDbContext<User,Role,int> //tüm sınıfları int olarak Id Kullanıcağı anlamına gelir.
+    public class SecurePayContext : IdentityDbContext<User,Role,int> //tüm sınıfları int olarak Id Kullanıcağı anlamına gelir.
     {
-        public NtContext(DbContextOptions options) : base(options)
+        public SecurePayContext(DbContextOptions options) : base(options)
         {
 
         }

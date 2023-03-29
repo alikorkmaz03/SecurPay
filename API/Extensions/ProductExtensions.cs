@@ -8,7 +8,8 @@ namespace API.Extensions
     {
         public static IQueryable<Product> Sort(this IQueryable<Product> query, string orderBy) //parametrelere göre sıralama yapması için bu yöntemi kullanıyoruz.
         {
-            if(string.IsNullOrWhiteSpace(orderBy))  return query.OrderBy(p=>p.Name);
+            // Eğer orderBy parametresi null, boş veya boşluk karakteri içeriyorsa, sorguyu Name'e göre sırala.
+            if (string.IsNullOrWhiteSpace(orderBy))  return query.OrderBy(p=>p.Name);
             query=orderBy switch
             {
            "price"=>query.OrderBy(p=>p.Price),
@@ -37,6 +38,8 @@ namespace API.Extensions
             brandList.AddRange(brands.ToLower().Split(",").ToList());
 
             if(!string.IsNullOrEmpty(types))
+
+            //addRange types adlı diziye dataları , karakterinden itibaren böler ve ekler
             typeList.AddRange(types.ToLower().Split(",").ToList());
 
             query=query.Where(p=>brandList.Count== 0 || brandList.Contains(p.Brand.ToLower()));

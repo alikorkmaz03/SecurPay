@@ -21,7 +21,7 @@ namespace API.Services
         //JWT Token şifreleme ve üretme  işlemlerini burada yapıyoruz
         public async Task<string> GenerateToken(User user)
         {
-            // Yük, token ile iletilen gerçek verileri içerir. Bu veriler, genellikle "claim" adı verilen ifadelerdir ve key-value çiftlerinden oluşan bir JSON nesnesidir
+            // token ile iletilen gerçek verileri içerir. Bu veriler, genellikle "claim" adı verilen ifadelerdir ve key-value çiftlerinden oluşan bir JSON nesnesidir
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email,user.Email),

@@ -13,8 +13,8 @@ namespace API.Controllers
 {
     public class BasketController : BaseApiController
     {
-        private readonly NtContext _context;
-        public BasketController(NtContext context)
+        private readonly SecurePayContext _context;
+        public BasketController(SecurePayContext context)
         {
             _context = context;
 

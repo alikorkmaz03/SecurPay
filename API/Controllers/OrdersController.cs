@@ -13,9 +13,9 @@ namespace API.Controllers
     [Authorize]
     public class OrdersController : BaseApiController
     {
-        private readonly NtContext _context;
+        private readonly SecurePayContext _context;
 
-        public OrdersController(NtContext context)
+        public OrdersController(SecurePayContext context)
         {
             _context = context;
         }

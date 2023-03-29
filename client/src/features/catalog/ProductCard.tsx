@@ -18,9 +18,7 @@ import { addBasketItemAsync } from "../basket/basketSlice";
 interface Props {
   product: Product;
 }
-export function ProductCard({ product }: Props) {
-  // const [loading,setLoading] = useState(false);
-  // const {setBasket}=useNtStoreContext();
+export function ProductCard({ product }: Props) { 
   const {status}=useAppSelector(state=>state.basket);
   const dispatch =useAppDispatch();
 
