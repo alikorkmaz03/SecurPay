@@ -1,6 +1,6 @@
 import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Header from "./Header";
 import 'react-toastify/dist/ReactToastify.css'
@@ -8,9 +8,11 @@ import LoadingComponent from "./LoadingComponent";
 import { useAppDispatch } from "../store/configureStore";
 import { fetchBasketAsync, setBasket } from "../../features/basket/basketSlice";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
+import HomePage from "../../features/home/HomePage";
 
 function App() {
-    /*Uygulama sepete ekleme işlemi olduğunda ilk buraya gelir bunu bunu kaldırıp redux ile yapacağız. Dispatch tanımlıcaz  */    
+    const location = useLocation();
+    /*Uygulama sepete ekleme işlemi olduğunda ilk buraya gelir bunu bunu kaldırıp redux ile yapacağız. Dispatch tanımlıcaz  */
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
 
@@ -53,9 +55,12 @@ function App() {
             <ToastContainer position='bottom-right' hideProgressBar />
             <CssBaseline />
             <Header darkMode={darkMode} handleThemeChangeColor={handleThemeChangeColor} />
-            <Container>
-                <Outlet />
-            </Container>
+            {loading ? <LoadingComponent message="Uygulama başlatılıyor.." />
+                    : location.pathname === '/' ? <HomePage />
+                    : <Container sx={{mt:4}} >
+                        <Outlet />
+                      </Container>
+            }
         </ThemeProvider> // Product'ın eski hali artık parametreler değişti düzenlenmiş hali aşağıdaki gibidir.
     );
 }

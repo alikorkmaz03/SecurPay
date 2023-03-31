@@ -48,7 +48,7 @@ export default function Header({ darkMode, handleThemeChangeColor }: Props) {
   const { user } = useAppSelector((state) => state.account);
 
   return (
-    <AppBar position="static" sx={{ mb: 4 }}>
+    <AppBar position="static" >
       <Toolbar
         sx={{
           display: "flex",
