@@ -1,6 +1,6 @@
-# NtStore
+# SecurePay
 
-NtStore, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client tarafı React18 ve Entity Framework Core kullanılarak geliştirilmiştir.
+Securepay, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client tarafı React18 ve Entity Framework Core kullanılarak geliştirilmiştir.
 
 ## Kullanılan Teknolojiler 
 - Redux: React uygulamalarında kullanılan bir durum yöneticisidir.
@@ -42,15 +42,15 @@ NtStore, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, client 
 ## Yükleme ve Kullanım
 
 1. Bu uygulamayı indirin veya kopyalayın.
-2. Visual Studio'da `NtStore.sln` dosyasını açın.
+2. Visual Studio'da `Securepay.sln` dosyasını açın.
 3. `appsettings.json` dosyasında gerekli ayarları yapılandırın. Özellikle, Stripe ödeme ağ geçidi anahtarınızı burada belirtmeniz gerekmektedir.
 4. `Package Manager Console` penceresinde `Update-Database` komutunu çalıştırarak veritabanınızı güncelleyin.
 5. Uygulamayı başlatın.
 
 ## Katkıda Bulunma
 
-- Herhangi bir hata veya sorunla karşılaşırsanız, lütfen bir [issue](https://github.com/alikorkmaz03/NtStore/issues) oluşturun.
-- Katkıda bulunmak için bir [pull request](https://github.com/alikorkmaz03/NtStore/pulls) gönderin.
+- Herhangi bir hata veya sorunla karşılaşırsanız, lütfen bir [issue](https://github.com/alikorkmaz03/Securepay/issues) oluşturun.
+- Katkıda bulunmak için bir [pull request](https://github.com/alikorkmaz03/Securepay/pulls) gönderin.
 - Herhangi bir sorunuz veya öneriniz varsa, lütfen bir [email](mailto:alikorkmaz03@gmail.com) gönderin.
 
 ## Lisans
