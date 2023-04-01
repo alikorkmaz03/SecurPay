@@ -9,6 +9,7 @@ using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,10 +24,7 @@ LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nl
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-
-//Cors Yapılandırması İçin
-//builder.Services.ConfigureCors();
-
+ 
 //NLog Manager için
 builder.Services.ConfigureLoggerManager();
 
@@ -125,6 +123,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+//ASP.NET Core uygulamasında, belirtilen bir varsayılan dosyanın sunucuda bulunması durumunda varsayılan dosya olarak kullanılmasını sağlar.örnek /**http://localhost:5000 **/adresini index.html olarak sunar
+app.UseDefaultFiles();
+//istemcilere sunulacak olan statik dosyaların sunucu tarafından servis edilmesini sağlar. Bu sayede istemci tarayıcının belirtilen dosyaları indirmesi gereksiz hale gelir.
+app.UseStaticFiles();
 //app.UseHttpsRedirection();
 app.UseCors(opt =>
 {
@@ -136,6 +138,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+//bir URL'nin doğru bir yönlendirme veya dosya olmadığında kullanılacak bir varsayılan sayfayı belirlemek için kullanılır.
+app.MapFallbackToController("index", "Fallback");
 
 // İçerisinde bağımlılık enjeksiyonu için kullanılacak nesneleri barındıran bir kapsam oluşturun.
 using var scope = app.Services.CreateScope();

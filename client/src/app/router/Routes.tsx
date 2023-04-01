@@ -1,5 +1,4 @@
-﻿import HomePage from "../../features/home/HomePage";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+﻿import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../layout/App";
 import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
@@ -10,7 +9,6 @@ import NotFound from "../errors/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
-import CheckoutPage from "../../features/checkout/CheckoutPage";
 import RequireAuth from "./RequireAuth";
 import Orders from "../../features/orders/Orders";
 import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
