@@ -69,7 +69,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddDbContext<SecurePayContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("SecurePayDefaultConnection"));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("SecurePayDefaultConnection"));
 });
 builder.Services.AddCors();//Cors Origin ayarı için eklendi.
 

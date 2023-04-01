@@ -27,6 +27,12 @@ Securepay, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, clien
     dotnet user-secret list
 
     https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows
+- Docker 
+    Yardımcı Komutlar  Örnektir: 
+    PostgreSQL komutu->docker run --name dev -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=secretpassword -p 5432:5432 -d postgres:latest
+
+    Migration Postgres->dotnet ef migrations add PostgresInitial -o Data/Migrationsdonet
+
 
 ## Özellikler
 
