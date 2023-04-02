@@ -1743,3 +1743,32 @@
 2023-04-01 23:55:31.3851 Debug FileTarget(Name=logfile): Preparing for new file: 'C:\Logs\SecurePay\2023-04-01_logfile.txt'
 2023-04-01 23:55:31.3969 Debug FileTarget(Name=logfile): Creating file appender: 'C:\Logs\SecurePay\2023-04-01_logfile.txt'
 2023-04-01 23:55:31.3969 Trace FileTarget(Name=logfile): Opening C:\Logs\SecurePay\2023-04-01_logfile.txt with allowFileSharedWriting=False
+2023-04-02 00:50:52.5067 Info AppDomain Shutting down. LogFactory closing...
+2023-04-02 00:50:52.6417 Debug Stopping file watching for path 'C:\ReactProjects\securepay\API' filter 'nlog.config'
+2023-04-02 00:50:52.6565 Trace Flushing all 1 targets...
+2023-04-02 00:50:52.6795 Trace ForEachItemInParallel() 1 items
+2023-04-02 00:50:52.6985 Trace FileTarget(Name=logfile): FlushAsync
+2023-04-02 00:50:52.7152 Trace Continuation invoked: 
+2023-04-02 00:50:52.7292 Trace Parallel task completed. 0 items remaining
+2023-04-02 00:50:52.7438 Debug Flush completed
+2023-04-02 00:50:52.7613 Trace FileTarget(Name=logfile): FlushAsync Done
+2023-04-02 00:50:52.7613 Debug Targets not configured for Logger: API.Services.LoggerManager
+2023-04-02 00:50:52.8155 Debug Closing logging configuration...
+2023-04-02 00:50:52.8319 Trace Closing FileTarget(Name=logfile)
+2023-04-02 00:50:52.8515 Debug FileTarget(Name=logfile): Closing...
+2023-04-02 00:50:52.8725 Trace FileTarget(Name=logfile): FinalizeFile 'C:\Logs\SecurePay\2023-04-01_logfile.txt, isArchiving: False'
+2023-04-02 00:50:52.8895 Debug FileTarget(Name=logfile): FileAppender Closing Invalidate - C:\Logs\SecurePay\2023-04-01_logfile.txt
+2023-04-02 00:50:52.9069 Trace FileTarget: Closing 'C:\Logs\SecurePay\2023-04-01_logfile.txt'
+2023-04-02 00:50:52.9488 Debug FileTarget(Name=logfile): Closed.
+2023-04-02 00:50:52.9649 Trace Closing C:\Logs\SecurePay\${shortdate}_logfile.txt
+2023-04-02 00:50:52.9798 Trace Closing Layout Renderer: ${literal}
+2023-04-02 00:50:53.0001 Trace Closing Layout Renderer: ${shortdate}
+2023-04-02 00:50:53.0144 Trace Closing Layout Renderer: ${literal}
+2023-04-02 00:50:53.0283 Trace Closing ${longdate} ${level:uppercase=true} ${message}
+2023-04-02 00:50:53.0438 Trace Closing Layout Renderer: ${longdate}
+2023-04-02 00:50:53.0582 Trace Closing Layout Renderer: ${literal}
+2023-04-02 00:50:53.0764 Trace Closing Layout Renderer: ${level}
+2023-04-02 00:50:53.0945 Trace Closing Layout Renderer: ${literal}
+2023-04-02 00:50:53.1138 Trace Closing Layout Renderer: ${message}
+2023-04-02 00:50:53.1350 Debug Finished closing logging configuration.
+2023-04-02 00:50:53.1588 Info LogFactory has been closed.

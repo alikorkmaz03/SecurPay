@@ -32,7 +32,10 @@ Securepay, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, clien
     PostgreSQL komutu->docker run --name dev -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=secretpassword -p 5432:5432 -d postgres:latest
 
     Migration Postgres->dotnet ef migrations add PostgresInitial -o Data/Migrationsdonet
-
+    
+    docker build -t eticaret/securepay .
+    docker push eticaret/securepay
+    docker run --rm -it -p 8080:80 eticaret/securepay
 
 ## Özellikler
 
