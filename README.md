@@ -48,6 +48,7 @@ Securepay, bir e-ticaret web uygulamasıdır. Bu uygulama, ASP.NET Core 6, clien
    ->fly secrets list
    ->fly secrets  set StripeSettings__SecretKey=sk_test
    ->fly secrets  set JWTSettings__TokenKey=tokenkey
+   ->fly apps -a <NameOfApp> restart
 ## Veritabanı bilgileri
 - PostgreSQL
 - Docker
