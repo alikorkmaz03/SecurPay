@@ -1,0 +1,32 @@
+# fly.toml file generated for securepay on 2023-04-05T22:40:21+03:00
+
+app = "securepay"
+kill_signal = "SIGINT"
+kill_timeout = 5
+mounts = []
+primary_region = "ams"
+processes = []
+
+[build]
+  image = "alikorkmaz03/securepay:latest"
+[env]
+  APSNETCORE_URLS="http://+:8080"
+  StripeSettings__PublishableKey="pk_test_51MoyEuLZEYvW8hxDW5nEFsUbc631izHpbTR5PMRVhwOvreBBCq6FlJjC51aSIc1Lj0yagFDILWyRj2atatOpTWCJ00lsTRROn5"
+  
+[[services]]
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
