@@ -2,7 +2,6 @@ name: docker-push
 
 on:
   workflow_dispatch:
-  
   # push:
   #   branches:
   #     - 'main'
@@ -24,6 +23,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context:"{{defaultSecurePayContext}}:API"
+          context:"{{SecurePayContext}}:API"
           push: true
           tags: alikorkmaz03/securepay:latest
